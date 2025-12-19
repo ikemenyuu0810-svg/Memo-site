@@ -1,29 +1,1863 @@
-<!DOCTYPE html>
+</div>
+
+  <div class="sidebar">
+    <div class="sidebar-header">Work Hub</div>
+    
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Tools</div>
+      <div class="sidebar-item active" data-view="pomodoro">
+        <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span>Pomodoro Timer</span>
+      </div>
+      <div class="sidebar-item" data-view="clock">
+        <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span>Clock</span>
+      </div>
+      <div class="sidebar-item" data-view="stopwatch">
+        <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="13" r="8"/>
+          <path d="M12 9v4l2 2"/>
+          <path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83"/>
+        </svg>
+        <span>Stopwatch</span>
+      </div>
+      <div class="sidebar-item" data-view="custom">
+        <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span>Custom Timer</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Workspace</div>
+      <div class="sidebar-item" data-view="memo">
+        <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        <span>Memo</span>
+      </div>
+      <div class="sidebar-item" data-view="notion">
+        <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        <span>Notion</span>
+      </div>
+      <div class="sidebar-item" data-view="gemini">
+        <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        <span>Gemini Chat</span>
+      </div>
+      <div class="sidebar-item" data-view="weather">
+        <svg class="sidebar-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
+        </svg>
+        <span>Weather</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="main-container">
+    <div class="top-bar">
+      <input type="text" class="search-box" id="search-input" placeholder="Search or jump to...">
+    </div>
+
+    <div class="content-area">
+      <div class="main-content">
+        <div class="card" id="pomodoro-card">
+          <div class="card-title">Pomodoro Timer</div>
+          <div class="card-content">
+            <div class="timer-tabs">
+              <button class="tab-btn active" data-type="pomodoro">Work</button>
+              <button class="tab-btn" data-type="short">Short Break</button>
+              <button class="tab-btn" data-type="long">Long Break</button>
+            </div>
+            <div class="timer-display" id="timer-display">25:00</div>
+            <div class="timer-controls">
+              <button class="control-btn" id="start-btn">Start</button>
+              <button class="control-btn" id="reset-btn">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" id="clock-card">
+          <div class="card-title">Clock</div>
+          <div class="card-content">
+            <div class="clock-time" id="clock-time">00:00:00</div>
+            <div class="clock-date" id="clock-date">2024/1/1</div>
+            <div class="world-clock-item">
+              <span>Tokyo</span>
+              <span id="tokyo-time">00:00:00</span>
+            </div>
+            <div class="world-clock-item">
+              <span>New York</span>
+              <span id="ny-time">00:00:00</span>
+            </div>
+            <div class="world-clock-item">
+              <span>London</span>
+              <span id="london-time">00:00:00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Stopwatch</div>
+          <div class="card-content">
+            <div class="display-medium" id="stopwatch-display">00:00:00</div>
+            <div class="controls-small">
+              <button class="btn-small" id="sw-start">Start</button>
+              <button class="btn-small" id="sw-lap">Lap</button>
+              <button class="btn-small" id="sw-reset">Reset</button>
+            </div>
+            <div class="lap-list" id="lap-list"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Custom Timer</div>
+          <div class="card-content">
+            <div class="display-medium" id="custom-display">00:00:00</div>
+            <div class="input-group">
+              <input type="number" class="input-small" id="ct-hours" value="0" min="0" max="23">
+              <span>:</span>
+              <input type="number" class="input-small" id="ct-minutes" value="0" min="0" max="59">
+              <span>:</span>
+              <input type="number" class="input-small" id="ct-seconds" value="0" min="0" max="59">
+            </div>
+            <div class="controls-small">
+              <button class="btn-small" id="ct-start">Start</button>
+              <button class="btn-small" id="ct-reset">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Memo</div>
+          <div class="card-content">
+            <div class="text-toolbar" id="memo-toolbar">
+              <button class="toolbar-btn" data-action="bold" title="Bold (Ctrl+B)">B</button>
+              <button class="toolbar-btn" data-action="underline" title="Underline (Ctrl+U)">U</button>
+              <button class="toolbar-btn" data-action="larger" title="Larger (Ctrl+Shift+>)">A+</button>
+              <button class="toolbar-btn" data-action="smaller" title="Smaller (Ctrl+Shift+<)">A-</button>
+            </div>
+            <div class="memo-textarea" id="memo" contenteditable="true" data-placeholder="Take notes..."></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Weather</div>
+          <div class="card-content">
+            <div class="weather-display">
+              <div class="weather-icon-row">
+                <img id="weather-icon" class="weather-icon-img" src="" alt="">
+                <span id="weather-desc">Loading...</span>
+              </div>
+              <div class="display-medium" id="weather-temp" style="margin-bottom: 8px;">--°</div>
+              <div style="display: flex; justify-content: center; gap: 16px; font-size: 13px; color: rgba(255,255,255,0.9); margin-bottom: 8px;">
+                <span>▲ <span id="weather-max">--</span>°</span>
+                <span>▼ <span id="weather-min">--</span>°</span>
+              </div>
+              <div style="font-size: 12px; opacity: 0.8;" id="weather-location">--</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="min-height: 400px;">
+          <div class="card-title">Notion</div>
+          <div class="card-content">
+            <div class="notion-controls">
+              <button class="notion-nav-btn" id="notion-prev" style="display: none;">&lt;</button>
+              <button class="notion-nav-btn" id="notion-next">&gt;</button>
+            </div>
+            <iframe 
+              id="notion-iframe"
+              src="https://leather-kilogram-044.notion.site/ebd/2c9ee93cc3e4800aba3ef91a7b2b0a31?v=2c9ee93cc3e480868d75000c8bfe4b7d" 
+              width="100%" 
+              height="100%" 
+              frameborder="0" 
+              allowfullscreen
+              style="border: none; border-radius: 6px; display: block; flex: 1;">
+            </iframe>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Gemini Chat</div>
+          <div class="card-content">
+            <div class="gemini-input-area">
+              <div class="gemini-input-wrapper">
+                <div class="text-toolbar" id="gemini-toolbar">
+                  <button class="toolbar-btn" data-action="bold" title="Bold (Ctrl+B)">B</button>
+                  <button class="toolbar-btn" data-action="underline" title="Underline (Ctrl+U)">U</button>
+                  <button class="toolbar-btn" data-action="larger" title="Larger (Ctrl+Shift+>)">A+</button>
+                  <button class="toolbar-btn" data-action="smaller" title="Smaller (Ctrl+Shift+<)">A-</button>
+                </div>
+                <div class="gemini-input" id="gemini-input" contenteditable="true" data-placeholder="Message Gemini..."></div>
+              </div>
+              <button class="gemini-send-btn" id="gemini-send">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentFocusedEditable = null;
+
+    document.getElementById('memo').addEventListener('focus', function() {
+      currentFocusedEditable = this;
+    });
+
+    document.getElementById('gemini-input').addEventListener('focus', function() {
+      currentFocusedEditable = this;
+    });
+
+    function applyFormat(action) {
+      const target = currentFocusedEditable;
+      if (!target) return;
+
+      target.focus();
+      const selection = window.getSelection();
+      
+      if (action === 'bold') {
+        document.execCommand('bold', false, null);
+      } else if (action === 'underline') {
+        document.execCommand('underline', false, null);
+      } else if (action === 'larger' || action === 'smaller') {
+        const delta = action === 'larger' ? 2 : -2;
+        
+        if (selection.rangeCount > 0 && !selection.isCollapsed) {
+          const range = selection.getRangeAt(0);
+          const span = document.createElement('span');
+          
+          try {
+            range.surroundContents(span);
+            const currentSize = parseFloat(window.getComputedStyle(span).fontSize);
+            span.style.fontSize = (currentSize + delta) + 'px';
+          } catch (e) {
+            const fragment = range.extractContents();
+            const span = document.createElement('span');
+            span.appendChild(fragment);
+            const currentSize = parseFloat(window.getComputedStyle(target).fontSize);
+            span.style.fontSize = (currentSize + delta) + 'px';
+            range.insertNode(span);
+          }
+        }
+      }
+    }
+
+    document.querySelectorAll('.text-toolbar').forEach(toolbar => {
+      toolbar.querySelectorAll('.toolbar-btn').forEach(btn => {
+        btn.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+        });
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const action = this.getAttribute('data-action');
+          applyFormat(action);
+        });
+      });
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (!currentFocusedEditable) return;
+
+      if (e.ctrlKey && !e.shiftKey && e.key === 'b') {
+        e.preventDefault();
+        applyFormat('bold');
+      } else if (e.ctrlKey && !e.shiftKey && e.key === 'u') {
+        e.preventDefault();
+        applyFormat('underline');
+      } else if (e.ctrlKey && e.shiftKey && e.key === '>') {
+        e.preventDefault();
+        applyFormat('larger');
+      } else if (e.ctrlKey && e.shiftKey && e.key === '<') {
+        e.preventDefault();
+        applyFormat('smaller');
+      }
+    });
+
+    let currentNotionPage = 0;
+    const notionUrls = [
+      'https://leather-kilogram-044.notion.site/ebd/2c9ee93cc3e4800aba3ef91a7b2b0a31?v=2c9ee93cc3e480868d75000c8bfe4b7d',
+      'https://www.notion.so'
+    ];
+
+    function updateNotionButtons() {
+      const prevBtn = document.getElementById('notion-prev');
+      const nextBtn = document.getElementById('notion-next');
+      
+      if (currentNotionPage === 0) {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'block';
+      } else {
+        prevBtn.style.display = 'block';
+        nextBtn.style.display = 'none';
+      }
+    }
+
+    document.getElementById('notion-next').onclick = function() {
+      currentNotionPage = 1;
+      document.getElementById('notion-iframe').src = notionUrls[1];
+      updateNotionButtons();
+    };
+
+    document.getElementById('notion-prev').onclick = function() {
+      currentNotionPage = 0;
+      document.getElementById('notion-iframe').src = notionUrls[0];
+      updateNotionButtons();
+    };
+
+    let ringVisible = false;
+
+    document.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      showActionRing(e.clientX, e.clientY);
+    });
+
+    document.addEventListener('click', function(e) {
+      if (ringVisible && !e.target.closest('.ring-item') && !e.target.closest('.ring-center')) {
+        hideActionRing();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && ringVisible) {
+        hideActionRing();
+      }
+    });
+
+    function showActionRing(x, y) {
+      const ring = document.getElementById('action-ring');
+      
+      const margin = 150;
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      
+      x = Math.max(margin, Math.min(x, viewportWidth - margin));
+      y = Math.max(margin, Math.min(y, viewportHeight - margin));
+      
+      ring.style.left = x + 'px';
+      ring.style.top = y + 'px';
+      ring.classList.add('show');
+      ringVisible = true;
+
+      const existingItems = ring.querySelectorAll('.ring-item');
+      existingItems.forEach(item => item.remove());
+
+      const actions = [
+        {
+          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
+          label: 'New Memo',
+          action: () => {
+            document.getElementById('memo').focus();
+            hideActionRing();
+          },
+          angle: 0
+        },
+        {
+          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>',
+          label: 'Notion Page',
+          action: () => {
+            if (currentNotionPage === 0) {
+              document.getElementById('notion-next').click();
+            } else {
+              document.getElementById('notion-prev').click();
+            }
+            hideActionRing();
+          },
+          angle: 40
+        },
+        {
+          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+          label: 'Start Timer',
+          action: () => {
+            document.getElementById('start-btn').click();
+            hideActionRing();
+          },
+          angle: 80
+        },
+        {
+          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>',
+          label: 'Reset Timer',
+          action: () => {
+            document.getElementById('reset-btn').click();
+            hideActionRing();
+          },
+          angle: 120
+        },
+        {
+          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6M1 12h6m6 0h6"/></svg>',
+          label: 'Settings',
+          action: () => {
+            document.getElementById('settings-modal').classList.add('show');
+            hideActionRing();
+          },
+          angle: 160
+        },
+        {
+          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>',
+          label: 'Search',
+          action: () => {
+            document.getElementById('search-input').focus();
+            hideActionRing();
+          },
+          angle: 200
+        },
+        {
+          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+          label: 'Reset All',
+          action: () => {
+            if (confirm('すべてのデータをリセットしますか？')) {
+              localStorage.clear();
+              location.reload();
+            }
+            hideActionRing();
+          },
+          angle: 240
+        },
+        {
+          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>',
+          label: 'Stopwatch',
+          action: () => {
+            document.getElementById('sw-start').click();
+            hideActionRing();
+          },
+          angle: 280
+        },
+        {
+          icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
+          label: 'Custom Timer',
+          action: () => {
+            document.getElementById('ct-start').click();
+            hideActionRing();
+          },
+          angle: 320
+        }
+      ];
+
+      const radius = 90;
+      actions.forEach(action => {
+        const item = document.createElement('div');
+        item.className = 'ring-item';
+        
+        const radian = (action.angle - 90) * (Math.PI / 180);
+        const itemX = Math.cos(radian) * radius - 25;
+        const itemY = Math.sin(radian) * radius - 25;
+        
+        item.style.left = itemX + 'px';
+        item.style.top = itemY + 'px';
+        item.innerHTML = action.icon + `<div class="ring-label">${action.label}</div>`;
+        
+        item.onclick = action.action;
+        
+        ring.appendChild(item);
+      });
+    }
+
+    function hideActionRing() {
+      document.getElementById('action-ring').classList.remove('show');
+      ringVisible = false;
+    }
+
+    document.getElementById('search-input').onkeypress = function(e) {
+      if (e.key === 'Enter') {
+        const q = this.value.trim();
+        if (q) {
+          window.open('https://www.google.com/search?q=' + encodeURIComponent(q), '_blank');
+          this.value = '';
+        }
+      }
+    };
+
+    function showAlert(title, msg) {
+      document.getElementById('alert-title').textContent = title;
+      document.getElementById('alert-message').textContent = msg;
+      document.getElementById('fullscreen-alert').classList.add('show');
+    }
+
+    document.getElementById('alert-close').onclick = function() {
+      document.getElementById('fullscreen-alert').classList.remove('show');
+    };
+
+    let pomodoroSettings = JSON.parse(localStorage.getItem('pomodoroSettings') || '{"work":25,"break":5,"repeat":0}');
+    let currentType = 'pomodoro';
+    let pomodoroTime = pomodoroSettings.work;
+    let shortTime = pomodoroSettings.break;
+    let longTime = 15;
+    let timeLeft = pomodoroTime * 60;
+    let timerInt = null;
+    let isRunning = false;
+    let completedCycles = 0;
+    let isWorkSession = true;
+
+    document.getElementById('setting-work').value = pomodoroSettings.work;
+    document.getElementById('setting-break').value = pomodoroSettings.break;
+    document.getElementById('setting-repeat').value = pomodoroSettings.repeat;
+
+    document.getElementById('settings-save').onclick = function() {
+      pomodoroSettings.work = parseInt(document.getElementById('setting-work').value) || 25;
+      pomodoroSettings.break = parseInt(document.getElementById('setting-break').value) || 5;
+      pomodoroSettings.repeat = parseInt(document.getElementById('setting-repeat').value) || 0;
+      
+      localStorage.setItem('pomodoroSettings', JSON.stringify(pomodoroSettings));
+      
+      pomodoroTime = pomodoroSettings.work;
+      shortTime = pomodoroSettings.break;
+      
+      if (currentType === 'pomodoro') {
+        timeLeft = pomodoroTime * 60;
+      } else if (currentType === 'short') {
+        timeLeft = shortTime * 60;
+      }
+      
+      updateTimer();
+      document.getElementById('settings-modal').classList.remove('show');
+    };
+
+    document.getElementById('settings-cancel').onclick = function() {
+      document.getElementById('settings-modal').classList.remove('show');
+    };
+
+    function updateTimer() {
+      const m = Math.floor(timeLeft / 60);
+      const s = timeLeft % 60;
+      const timeStr = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+      document.getElementById('timer-display').textContent = timeStr;
+      document.getElementById('floating-timer-time').textContent = timeStr;
+    }
+
+    function switchType(type) {
+      if (isRunning) {
+        clearInterval(timerInt);
+        isRunning = false;
+        document.getElementById('start-btn').textContent = 'Start';
+      }
+
+      currentType = type;
+      document.body.classList.remove('short-break', 'long-break');
+      
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-type="' + type + '"]').classList.add('active');
+
+      if (type === 'pomodoro') {
+        timeLeft = pomodoroTime * 60;
+        isWorkSession = true;
+      } else if (type === 'short') {
+        timeLeft = shortTime * 60;
+        document.body.classList.add('short-break');
+        isWorkSession = false;
+      } else {
+        timeLeft = longTime * 60;
+        document.body.classList.add('long-break');
+        isWorkSession = false;
+      }
+      
+      updateTimer();
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(function(btn) {
+      btn.onclick = function() {
+        switchType(this.getAttribute('data-type'));
+      };
+    });
+
+    document.getElementById('start-btn').onclick = function() {
+      if (isRunning) {
+        clearInterval(timerInt);
+        isRunning = false;
+        this.textContent = 'Start';
+      } else {
+        isRunning = true;
+        this.textContent = 'Stop';
+        timerInt = setInterval(function() {
+          timeLeft--;
+          updateTimer();
+          
+          if (timeLeft <= 0) {
+            clearInterval(timerInt);
+            isRunning = false;
+            document.getElementById('start-btn').textContent = 'Start';
+            
+            if (isWorkSession) {
+              completedCycles++;
+              showAlert('作業完了！', '休憩時間です');
+              
+              if (pomodoroSettings.repeat === 0 || completedCycles < pomodoroSettings.repeat) {
+                setTimeout(() => {
+                  switchType('short');
+                  document.getElementById('start-btn').click();
+                }, 3000);
+              }
+            } else {
+              showAlert('休憩終了！', '次の作業を始めましょう');
+              
+              if (pomodoroSettings.repeat === 0 || completedCycles < pomodoroSettings.repeat) {
+                setTimeout(() => {
+                  switchType('pomodoro');
+                  document.getElementById('start-btn').click();
+                }, 3000);
+              }
+            }
+          }
+        }, 1000);
+      }
+    };
+
+    document.getElementById('reset-btn').onclick = function() {
+      if (isRunning) {
+        clearInterval(timerInt);
+        isRunning = false;
+        document.getElementById('start-btn').textContent = 'Start';
+      }
+      completedCycles = 0;
+      switchType(currentType);
+    };
+
+    document.getElementById('floating-timer').onclick = function() {
+      document.getElementById('pomodoro-card').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    document.getElementById('floating-clock').onclick = function() {
+      document.getElementById('clock-card').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    function checkTimerVisibility() {
+      const timerCard = document.getElementById('pomodoro-card');
+      const rect = timerCard.getBoundingClientRect();
+      const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+      
+      const floatingTimer = document.getElementById('floating-timer');
+      if (isVisible) {
+        floatingTimer.classList.remove('show');
+      } else {
+        floatingTimer.classList.add('show');
+      }
+    }
+
+    function checkClockVisibility() {
+      const clockCard = document.getElementById('clock-card');
+      const rect = clockCard.getBoundingClientRect();
+      const isVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+      
+      const floatingClock = document.getElementById('floating-clock');
+      if (isVisible) {
+        floatingClock.classList.remove('show');
+      } else {
+        floatingClock.classList.add('show');
+      }
+    }
+
+    const mainContent = document.querySelector('.main-content');
+    mainContent.addEventListener('scroll', function() {
+      checkTimerVisibility();
+      checkClockVisibility();
+    });
+
+    window.addEventListener('resize', function() {
+      checkTimerVisibility();
+      checkClockVisibility();
+    });
+
+    let customInt = null;
+    let customTime = 0;
+    let customRun = false;
+
+    function updateCustom() {
+      const h = Math.floor(customTime / 3600);
+      const m = Math.floor((customTime % 3600) / 60);
+      const s = customTime % 60;
+      document.getElementById('custom-display').textContent = 
+        String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    }
+
+    document.getElementById('ct-start').onclick = function() {
+      if (customRun) {
+        clearInterval(customInt);
+        customRun = false;
+        this.textContent = 'Start';
+      } else {
+        if (customTime === 0) {
+          const h = parseInt(document.getElementById('ct-hours').value) || 0;
+          const m = parseInt(document.getElementById('ct-minutes').value) || 0;
+          const s = parseInt(document.getElementById('ct-seconds').value) || 0;
+          customTime = h * 3600 + m * 60 + s;
+          if (customTime === 0) return alert('Please set the time');
+        }
+        customRun = true;
+        this.textContent = 'Stop';
+        customInt = setInterval(function() {
+          customTime--;
+          updateCustom();
+          if (customTime <= 0) {
+            clearInterval(customInt);
+            customRun = false;
+            document.getElementById('ct-start').textContent = 'Start';
+            showAlert('Time Up！', 'カスタムタイマーが終了しました');
+          }
+        }, 1000);
+      }
+    };
+
+    document.getElementById('ct-reset').onclick = function() {
+      clearInterval(customInt);
+      customRun = false;
+      customTime = 0;
+      document.getElementById('ct-start').textContent = 'Start';
+      document.getElementById('ct-hours').value = 0;
+      document.getElementById('ct-minutes').value = 0;
+      document.getElementById('ct-seconds').value = 0;
+      updateCustom();
+    };
+
+    let swTime = 0;
+    let swInt = null;
+    let swRun = false;
+    let lapCount = 0;
+
+    function updateStopwatch() {
+      const h = Math.floor(swTime / 3600);
+      const m = Math.floor((swTime % 3600) / 60);
+      const s = swTime % 60;
+      document.getElementById('stopwatch-display').textContent = 
+        String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    }
+
+    document.getElementById('sw-start').onclick = function() {
+      if (swRun) {
+        clearInterval(swInt);
+        swRun = false;
+        this.textContent = 'Start';
+      } else {
+        swRun = true;
+        this.textContent = 'Stop';
+        swInt = setInterval(function() {
+          swTime++;
+          updateStopwatch();
+        }, 1000);
+      }
+    };
+
+    document.getElementById('sw-lap').onclick = function() {
+      if (swRun) {
+        lapCount++;
+        const h = Math.floor(swTime / 3600);
+        const m = Math.floor((swTime % 3600) / 60);
+        const s = swTime % 60;
+        const time = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        const lap = document.createElement('div');
+        lap.className = 'lap-item';
+        lap.innerHTML = '<span>Lap ' + lapCount + '</span><span>' + time + '</span>';
+        document.getElementById('lap-list').insertBefore(lap, document.getElementById('lap-list').firstChild);
+      }
+    };
+
+    document.getElementById('sw-reset').onclick = function() {
+      clearInterval(swInt);
+      swRun = false;
+      swTime = 0;
+      lapCount = 0;
+      document.getElementById('sw-start').textContent = 'Start';
+      document.getElementById('lap-list').innerHTML = '';
+      updateStopwatch();
+    };
+
+    const memo = document.getElementById('memo');
+    if (localStorage.getItem('memo')) {
+      memo.innerHTML = localStorage.getItem('memo');
+    }
+
+    memo.addEventListener('input', function() {
+      localStorage.setItem('memo', this.innerHTML);
+    });
+
+    function updateClocks() {
+      const now = new Date();
+      
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      const timeStr = h + ':' + m + ':' + s;
+      document.getElementById('clock-time').textContent = timeStr;
+      document.getElementById('floating-clock-time').textContent = timeStr;
+      
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1;
+      const day = now.getDate();
+      const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const weekday = weekdays[now.getDay()];
+      document.getElementById('clock-date').textContent = 
+        year + '/' + month + '/' + day + ' (' + weekday + ')';
+      
+      const tokyo = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Tokyo' }));
+      const ny = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+      const london = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/London' }));
+      
+      document.getElementById('tokyo-time').textContent = 
+        String(tokyo.getHours()).padStart(2, '0') + ':' + 
+        String(tokyo.getMinutes()).padStart(2, '0') + ':' + 
+        String(tokyo.getSeconds()).padStart(2, '0');
+      
+      document.getElementById('ny-time').textContent = 
+        String(ny.getHours()).padStart(2, '0') + ':' + 
+        String(ny.getMinutes()).padStart(2, '0') + ':' + 
+        String(ny.getSeconds()).padStart(2, '0');
+      
+      document.getElementById('london-time').textContent = 
+        String(london.getHours()).padStart(2, '0') + ':' + 
+        String(london.getMinutes()).padStart(2, '0') + ':' + 
+        String(london.getSeconds()).padStart(2, '0');
+    }
+
+    updateClocks();
+    setInterval(updateClocks, 1000);
+    
+    function loadWeather() {
+      const apiKey = "8eb6dc5492a964ea79dd0ef92f1ae01c";
+      const lat = 35.85272206403399;
+      const lon = 136.28673448772105;
+
+      const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=ja`;
+
+      fetch(weatherUrl, {
+        method: 'GET',
+        mode: 'cors'
+      })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+          }
+          return res.json();
+        })
+        .then(data => {
+          const weather = data.weather[0].description;
+          const icon = data.weather[0].icon;
+          const temp = Math.round(data.main.temp);
+          const tempMax = Math.round(data.main.temp_max);
+          const tempMin = Math.round(data.main.temp_min);
+          const place = data.name || "指定地点";
+
+          document.getElementById('weather-icon').src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+          document.getElementById('weather-icon').style.display = 'block';
+          document.getElementById('weather-desc').textContent = weather;
+          document.getElementById('weather-temp').textContent = temp + '°';
+          document.getElementById('weather-max').textContent = tempMax;
+          document.getElementById('weather-min').textContent = tempMin;
+          document.getElementById('weather-location').textContent = place;
+        })
+        .catch(err => {
+          console.error('Weather fetch error:', err);
+          document.getElementById('weather-desc').textContent = 'エラー: ' + err.message;
+        });
+    }
+
+    loadWeather();
+    setInterval(loadWeather, 1800000);
+
+    setInterval(function() {
+      const iframe = document.getElementById('notion-iframe');
+      const currentSrc = iframe.src;
+      iframe.src = currentSrc;
+    }, 300000);
+
+    document.getElementById('gemini-send').onclick = function() {
+      const input = document.getElementById('gemini-input');
+      const message = input.textContent.trim();
+
+      if (!message) return;
+
+      input.textContent = '';
+      
+      console.log('Message sent to Gemini:', message);
+    };
+
+    document.getElementById('gemini-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        document.getElementById('gemini-send').click();
+      }
+    });
+
+    document.querySelectorAll('.sidebar-item').forEach(item => {
+      item.addEventListener('click', function() {
+        document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+    
+    updateTimer();
+    updateCustom();
+    updateStopwatch();
+    checkTimerVisibility();
+    checkClockVisibility();
+  </script>
+</body>
+</html><!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>サイト内検索</title>
-
-  <!-- Google PSE -->
-  <script async src="https://cse.google.com/cse.js?cx=65ae1cbe3d3cd432e"></script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    .search-area {
-      max-width: 800px;
-      margin: 0 auto;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .search-results {
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #d95550;
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    body.short-break { background: #4c9195; }
+    body.long-break { background: #457ca3; }
+
+    .sidebar {
+      width: 260px;
+      background: rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
+    }
+
+    .sidebar-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .sidebar-section {
+      padding: 16px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-section-title {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 0 8px 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar-item {
+      padding: 6px 12px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+
+    .sidebar-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar-item.active {
+      background: rgba(255, 255, 255, 0.2);
+      font-weight: 600;
+    }
+
+    .sidebar-item-icon {
+      width: 18px;
+      height: 18px;
+      opacity: 0.8;
+    }
+
+    .main-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .top-bar {
+      height: 60px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 500px;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .search-box::placeholder { color: rgba(255, 255, 255, 0.7); }
+    .search-box:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .content-area {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      align-content: start;
+      grid-auto-rows: min-content;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      min-height: 200px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 12px;
+      opacity: 0.95;
+      flex-shrink: 0;
+    }
+
+    .card-content {
+      color: white;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .timer-display {
+      font-size: 48px;
+      font-weight: 700;
+      color: white;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .timer-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+      background: rgba(0, 0, 0, 0.1);
+      padding: 4px;
+      border-radius: 6px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 6px 12px;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      opacity: 0.6;
+    }
+
+    .tab-btn:hover { opacity: 0.8; }
+    .tab-btn.active {
+      background: rgba(0, 0, 0, 0.15);
+      opacity: 1;
+    }
+
+    .control-btn {
+      padding: 10px 24px;
+      background: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    body:not(.short-break):not(.long-break) .control-btn { color: #d95550; }
+    body.short-break .control-btn { color: #4c9195; }
+    body.long-break .control-btn { color: #457ca3; }
+
+    .control-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .timer-controls {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .clock-time {
+      font-size: 36px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 4px;
+    }
+
+    .clock-date {
+      font-size: 13px;
+      opacity: 0.85;
+      margin-bottom: 12px;
+    }
+
+    .world-clock-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      margin-bottom: 4px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .world-clock-item:last-child { margin-bottom: 0; }
+
+    .display-medium {
+      font-size: 32px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .input-small {
+      width: 50px;
+      padding: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      text-align: center;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      font-size: 14px;
+    }
+
+    .input-small:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .controls-small {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-small {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-small:hover { background: rgba(255, 255, 255, 0.3); }
+
+    .lap-list {
+      max-height: 120px;
+      overflow-y: auto;
+      margin-top: 10px;
+    }
+
+    .lap-list::-webkit-scrollbar { width: 4px; }
+    .lap-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 2px;
+    }
+
+    .lap-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      margin-bottom: 4px;
+      font-size: 12px;
+    }
+
+    .memo-textarea {
+      width: 100%;
+      flex: 1;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 13px;
+      font-family: inherit;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      line-height: 1.6;
+      overflow-y: auto;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      max-height: 100%;
+    }
+
+    .memo-textarea:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .memo-textarea:empty:before {
+      content: attr(data-placeholder);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .text-toolbar {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 8px;
+      padding: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .toolbar-btn {
+      width: 28px;
+      height: 28px;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 3px;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toolbar-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .toolbar-btn.active {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .weather-display {
+      text-align: center;
+    }
+
+    .weather-icon-row {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .weather-icon-img {
+      width: 36px;
+      height: 36px;
+      display: none;
+    }
+
+    .notion-controls {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+      gap: 6px;
+    }
+
+    .notion-nav-btn {
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .notion-nav-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .gemini-input-area {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .gemini-input-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gemini-input {
+      width: 100%;
+      min-height: 36px;
+      max-height: 80px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-family: inherit;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      line-height: 1.5;
+      overflow-y: auto;
+    }
+
+    .gemini-input:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .gemini-input:empty:before {
+      content: attr(data-placeholder);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .gemini-send-btn {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      border-radius: 4px;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      height: 36px;
+    }
+
+    .gemini-send-btn:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    .fullscreen-alert {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    .fullscreen-alert.show {
+      display: flex;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .alert-content {
+      text-align: center;
+      color: white;
+      animation: slideUp 0.4s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .alert-title {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .alert-message {
+      font-size: 20px;
+      margin-bottom: 28px;
+      opacity: 0.8;
+    }
+
+    .alert-close {
+      padding: 12px 32px;
+      background: white;
+      color: #d95550;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    body.short-break .alert-close { color: #4c9195; }
+    body.long-break .alert-close { color: #457ca3; }
+    .alert-close:hover { transform: scale(1.05); }
+
+    .settings-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+    }
+
+    .settings-modal.show {
+      display: flex;
+    }
+
+    .settings-content {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 28px;
+      max-width: 380px;
+      width: 90%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .settings-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .setting-item {
+      margin-bottom: 16px;
+    }
+
+    .setting-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    .setting-input {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      background: white;
+    }
+
+    .setting-input:focus {
+      outline: none;
+      border-color: #d95550;
+    }
+
+    .settings-buttons {
+      display: flex;
+      gap: 10px;
       margin-top: 20px;
+    }
+
+    .settings-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .settings-btn-save {
+      background: #d95550;
+      color: white;
+    }
+
+    .settings-btn-save:hover {
+      background: #c44a45;
+    }
+
+    .settings-btn-cancel {
+      background: #ddd;
+      color: #555;
+    }
+
+    .settings-btn-cancel:hover {
+      background: #ccc;
+    }
+
+    .floating-timer {
+      position: fixed;
+      right: 20px;
+      top: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 8px;
+      padding: 10px 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-20px);
+      pointer-events: none;
+      transition: all 0.4s ease;
+    }
+
+    .floating-timer.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .floating-timer:hover {
+      transform: translateY(0) scale(1.05);
+    }
+
+    .floating-timer-time {
+      font-size: 18px;
+      font-weight: 700;
+      color: #d95550;
+      font-variant-numeric: tabular-nums;
+    }
+
+    body.short-break .floating-timer-time {
+      color: #4c9195;
+    }
+
+    body.long-break .floating-timer-time {
+      color: #457ca3;
+    }
+
+    .floating-clock {
+      position: fixed;
+      left: 20px;
+      top: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 8px;
+      padding: 10px 14px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-20px);
+      pointer-events: none;
+      transition: all 0.4s ease;
+    }
+
+    .floating-clock.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .floating-clock:hover {
+      transform: translateY(0) scale(1.05);
+    }
+
+    .floating-clock-time {
+      font-size: 18px;
+      font-weight: 700;
+      color: #d95550;
+      font-variant-numeric: tabular-nums;
+    }
+
+    body.short-break .floating-clock-time {
+      color: #4c9195;
+    }
+
+    body.long-break .floating-clock-time {
+      color: #457ca3;
+    }
+
+    .action-ring {
+      position: fixed;
+      display: none;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .action-ring.show {
+      display: block;
+    }
+
+    .action-ring.show .ring-center {
+      animation: ringCenterIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .action-ring.show .ring-item {
+      animation: ringItemIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .action-ring.show .ring-item:nth-child(2) { animation-delay: 0.05s; }
+    .action-ring.show .ring-item:nth-child(3) { animation-delay: 0.1s; }
+    .action-ring.show .ring-item:nth-child(4) { animation-delay: 0.15s; }
+    .action-ring.show .ring-item:nth-child(5) { animation-delay: 0.2s; }
+    .action-ring.show .ring-item:nth-child(6) { animation-delay: 0.25s; }
+    .action-ring.show .ring-item:nth-child(7) { animation-delay: 0.3s; }
+    .action-ring.show .ring-item:nth-child(8) { animation-delay: 0.35s; }
+    .action-ring.show .ring-item:nth-child(9) { animation-delay: 0.4s; }
+
+    @keyframes ringCenterIn {
+      0% {
+        opacity: 0;
+        transform: scale(0);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes ringItemIn {
+      0% {
+        opacity: 0;
+        transform: scale(0);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .ring-center {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 50%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+      backdrop-filter: blur(10px);
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      left: -32px;
+      top: -32px;
+    }
+
+    .ring-center svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .ring-item {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15);
+      pointer-events: auto;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+    }
+
+    body:not(.short-break):not(.long-break) .ring-item {
+      color: #d95550;
+    }
+
+    body.short-break .ring-item {
+      color: #4c9195;
+    }
+
+    body.long-break .ring-item {
+      color: #457ca3;
+    }
+
+    .ring-item:hover {
+      transform: scale(1.15);
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+      background: white;
+    }
+
+    .ring-item svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .ring-label {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .ring-item:hover .ring-label {
+      opacity: 1;
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 220px;
+      }
+      
+      .main-content {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        position: absolute;
+        left: -260px;
+        height: 100%;
+        z-index: 100;
+        transition: left 0.3s ease;
+      }
+      
+      .sidebar.show {
+        left: 0;
+      }
+      
+      .main-content {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
-
 <body>
-
-  <div class="search-area">
-    <div class="gcse-searchbox"></div>
-    <div class="gcse-searchresults search-results"></div>
+  <div class="fullscreen-alert" id="fullscreen-alert">
+    <div class="alert-content">
+      <div class="alert-title" id="alert-title">Time Up!</div>
+      <div class="alert-message" id="alert-message">Finished your task</div>
+      <button class="alert-close" id="alert-close">OK</button>
+    </div>
   </div>
 
-</body>
-</html>
+  <div class="settings-modal" id="settings-modal">
+    <div class="settings-content">
+      <div class="settings-title">Pomodoro Settings</div>
+      <div class="setting-item">
+        <label class="setting-label">Work Time (minutes)</label>
+        <input type="number" class="setting-input" id="setting-work" min="1" max="60" value="25">
+      </div>
+      <div class="setting-item">
+        <label class="setting-label">Break Time (minutes)</label>
+        <input type="number" class="setting-input" id="setting-break" min="1" max="30" value="5">
+      </div>
+      <div class="setting-item">
+        <label class="setting-label">Repeat Count (0 = infinite)</label>
+        <input type="number" class="setting-input" id="setting-repeat" min="0" max="20" value="0">
+      </div>
+      <div class="settings-buttons">
+        <button class="settings-btn settings-btn-cancel" id="settings-cancel">Cancel</button>
+        <button class="settings-btn settings-btn-save" id="settings-save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="floating-timer" id="floating-timer">
+    <div class="floating-timer-time" id="floating-timer-time">25:00</div>
+  </div>
+
+  <div class="floating-clock" id="floating-clock">
+    <div class="floating-clock-time" id="floating-clock-time">00:00:00</div>
+  </div>
+
+  <div class="action-ring" id="action-ring">
+    <div class="ring-center">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M12 1v6m0 6v6M1 12h6m6 0h6"/>
+        <path d="m4.22 4.22 4.24 4.24m7.08 0 4.24-4.24M4.22 19.78l4.24-4.24m7.08 0 4.24 4.24"/>
+      </svg>
+    </div>
