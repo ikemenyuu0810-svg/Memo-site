@@ -1,0 +1,1963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memo-site</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+.back-drop-filter{ width: 100%; height: 100%; background:rgba(0,0,0,0.4) }
+
+:root {
+    --bg-primary: rgba(255,255,255,0.12);
+    --bg-secondary: rgba(255,255,255,0.12);
+    --bg-tertiary: rgba(255,255,255,0.12);
+    --text-primary: #ffffff;
+    --text-secondary: #ffffff;
+    --text-tertiary: #ffffff;
+    --border-color: rgba(255, 255, 252, 0.18);
+    --accent-blue: rgba(255,255,255,0.35);
+    --accent-blue-light: rgba(255,255,255,0.5);
+    --accent-red: #fa5252;
+    --accent-orange: #fd7e14;
+    --accent-yellow: #fab005;
+    --accent-green: #40c057;
+    --accent-purple: #9775fa;
+    --accent-pink: #f06595;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --hover-bg: rgba(0, 0, 0, 0.03);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+    background-image:url("./ashim-d-silva-WeYamle9fDM-unsplash.jpg") ;
+    min-height: 100vh;
+    overflow: hidden;
+    transition: background 0.3s;
+    color: var(--text-primary);
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    padding: 16px;
+    gap: 16px;
+}
+
+.icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.icon-lg {
+    width: 20px;
+    height: 20px;
+}
+
+.icon-xl {
+    width: 48px;
+    height: 48px;
+}
+
+.sidebar {
+    width: 300px;
+    background: var(--bg-secondary);
+    backdrop-filter: blur(15px);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.app-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.app-title h1 {
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.settings-btns {
+    display: flex;
+    gap: 6px;
+}
+
+.icon-btn {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 6px 8px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.icon-btn svg {
+    fill: currentColor;
+}
+
+.search-box {
+    width: 100%;
+    padding: 10px 12px 10px 36px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.color-select option {
+    color: grey;
+}
+
+.tag-select option {
+    color: grey;
+}
+
+.filter-select {
+    flex: 1;
+    padding: 8px 12px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+}
+
+.filter-select option {
+    color: grey;
+}
+
+.filter-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 40%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-tertiary);
+}
+
+.search-box::placeholder {
+    color: var(--text-tertiary);
+}
+
+.search-box:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(76, 110, 245, 0.1);
+}
+
+.filter-tabs {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-tab {
+    padding: 6px 12px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.filter-tab:hover {
+    background: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.filter-tab.active {
+    background: var(--accent-blue);
+    color: white;
+    border-color: var(--accent-blue);
+}
+
+.new-memo-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    background: var(--accent-blue);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.new-memo-btn:hover {
+    background: var(--accent-blue-light);
+    box-shadow: var(--shadow-md);
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 12px 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.view-controls, .sort-controls {
+    display: flex;
+    gap: 4px;
+}
+
+.control-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 4px 8px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.control-btn option {
+    color: grey;
+}
+
+.control-btn:hover {
+    background: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.control-btn.active {
+    background: var(--bg-tertiary);
+    color: var(--accent-blue);
+}
+
+.memo-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+.memo-list.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px;
+}
+
+.memo-item {
+    padding: 14px;
+    margin-bottom: 6px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.memo-list.grid-view .memo-item {
+    margin-bottom: 0;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.memo-item.pinned::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 12px;
+    height: 12px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+}
+
+.memo-item:hover {
+    background: var(--hover-bg);
+    box-shadow: var(--shadow-sm);
+}
+
+.memo-item.active {
+    background: var(--hover-bg);
+    border-color: var(--accent-blue);
+}
+
+.memo-item[data-color="red"] { border-left: 3px solid var(--accent-red); }
+.memo-item[data-color="orange"] { border-left: 3px solid var(--accent-orange); }
+.memo-item[data-color="yellow"] { border-left: 3px solid var(--accent-yellow); }
+.memo-item[data-color="green"] { border-left: 3px solid var(--accent-green); }
+.memo-item[data-color="blue"] { border-left: 3px solid var(--accent-blue); }
+.memo-item[data-color="purple"] { border-left: 3px solid var(--accent-purple); }
+.memo-item[data-color="pink"] { border-left: 3px solid var(--accent-pink); }
+
+.memo-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    gap: 8px;
+}
+
+.memo-item-title {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+}
+
+.memo-item-actions {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.memo-item:hover .memo-item-actions {
+    opacity: 1;
+}
+
+.memo-action-btn {
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    cursor: pointer;
+    padding: 2px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.memo-action-btn:hover {
+    color: var(--text-primary);
+    transform: scale(1.1);
+}
+
+.memo-action-btn.favorite.active {
+    color: var(--accent-yellow);
+}
+
+.memo-action-btn.pinned.active {
+    color: var(--accent-blue);
+}
+
+.memo-action-btn svg {
+    fill: currentColor;
+}
+
+.memo-item-preview {
+    color: var(--text-secondary);
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin-bottom: 8px;
+    line-height: 1.5;
+    flex: 1;
+}
+
+.memo-item-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-bottom: 8px;
+}
+
+.memo-item-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.tag {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 500;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tag-remove {
+    cursor: pointer;
+    opacity: 0.7;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 700;
+}
+
+.tag-remove:hover {
+    opacity: 1;
+}
+
+.tag-work { background: var(--accent-blue); }
+.tag-personal { background: var(--accent-pink); }
+.tag-ideas { background: var(--accent-purple); }
+.tag-todo { background: var(--accent-orange); }
+
+.context-menu {
+    position: fixed;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    padding: 4px;
+    z-index: 10000;
+    display: none;
+    min-width: 200px;
+}
+
+.context-menu.show {
+    display: block;
+}
+
+.context-menu-item {
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+}
+
+.context-menu-item svg {
+    fill: currentColor;
+}
+
+.context-menu-item:hover {
+    background: var(--hover-bg);
+}
+
+.context-menu-item.danger {
+    color: var(--accent-red);
+}
+
+.context-menu-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 4px 0;
+}
+
+.context-menu-submenu {
+    position: relative;
+}
+
+.context-submenu {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    padding: 4px;
+    display: none;
+    min-width: 150px;
+}
+
+.context-menu-submenu:hover .context-submenu {
+    display: block;
+}
+
+.color-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid var(--bg-secondary);
+}
+
+.main-editor {
+    flex: 1;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.editor-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.editor-title {
+    width: 100%;
+    padding: 8px 0;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: 700;
+    outline: none;
+    margin-bottom: 12px;
+}
+
+.editor-title::placeholder {
+    color: var(--text-tertiary);
+}
+
+.editor-toolbar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.toolbar-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--border-color);
+}
+
+.tag-select, .color-select {
+    padding: 6px 12px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+}
+
+.tag-select:focus, .color-select:focus {
+    border-color: var(--accent-blue);
+}
+
+.editor-stats {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text-tertiary);
+}
+
+.editor-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.editor-tab {
+    padding: 6px 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.editor-tab:hover {
+    background: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.editor-tab.active {
+    background: var(--bg-tertiary);
+    color: var(--accent-blue);
+    border-color: var(--border-color);
+}
+
+.editor-tab svg {
+    fill: currentColor;
+}
+
+.editor-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-textarea {
+    width: 100%;
+    min-height: 100%;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    font-size: 15px;
+    line-height: 1.8;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.editor-textarea::placeholder {
+    color: var(--text-tertiary);
+}
+
+.markdown-preview {
+    color: var(--text-primary);
+    line-height: 1.8;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.markdown-preview h1, .markdown-preview h2, .markdown-preview h3 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    word-wrap: break-word;
+}
+
+.markdown-preview p {
+    margin-bottom: 1em;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.markdown-preview code {
+    background: var(--bg-tertiary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    word-wrap: break-word;
+}
+
+.markdown-preview pre {
+    background: var(--bg-tertiary);
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 1em;
+    word-wrap: break-word;
+}
+
+.markdown-preview ul, .markdown-preview ol {
+    margin-left: 2em;
+    margin-bottom: 1em;
+}
+
+.markdown-preview a {
+    color: var(--accent-blue-light);
+    text-decoration: underline;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.markdown-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1em 0;
+}
+
+.markdown-preview hr {
+    border: none;
+    border-top: 2px solid var(--border-color);
+    margin: 2em 0;
+}
+
+.memo-date {
+    display: inline-block;
+    padding: 4px 8px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0.2em 0;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-tertiary);
+    text-align: center;
+    padding: 40px;
+    backdrop-filter:blur(15px);
+}
+
+.empty-state-icon {
+    margin-bottom: 16px;
+    color: var(--text-tertiary);
+}
+
+.empty-state-text {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.empty-state-hint {
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    padding: 24px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+    margin-bottom: 20px;
+}
+
+.modal-title {
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.modal-body {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background: var(--accent-blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--accent-blue-light);
+}
+
+.btn-secondary {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+    background: var(--hover-bg);
+}
+
+.shortcut-list {
+    display: grid;
+    gap: 10px;
+}
+
+.shortcut-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+.shortcut-key {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-tertiary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary);
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 20px;
+    color: var(--text-primary);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 2000;
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.file-input-hidden {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        max-height: 40vh;
+    }
+}
+  </style>
+</head>
+<body>
+    <div class="back-drop-filter">
+          <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="app-title">
+                    <h1>
+                        <svg class="icon-lg" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                        Memo
+                    </h1>
+                    <div class="settings-btns">
+                        <button class="icon-btn" id="helpBtn" title="ヘルプ">
+                            <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="search-wrapper">
+                    <svg class="icon search-icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <input type="text" class="search-box" id="searchBox" placeholder="メモを検索...">
+                </div>
+                <div class="filter-row">
+                    <select class="filter-select" id="colorFilter">
+                        <option value="">すべての色</option>
+                        <option value="red">赤</option>
+                        <option value="orange">オレンジ</option>
+                        <option value="yellow">黄色</option>
+                        <option value="green">緑</option>
+                        <option value="blue">青</option>
+                        <option value="purple">紫</option>
+                        <option value="pink">ピンク</option>
+                    </select>
+                    <select class="filter-select" id="tagFilter">
+                        <option value="">すべてのタグ</option>
+                        <option value="work">work</option>
+                        <option value="personal">personal</option>
+                        <option value="ideas">ideas</option>
+                        <option value="todo">todo</option>
+                    </select>
+                </div>
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">すべて</button>
+                    <button class="filter-tab" data-filter="favorites">お気に入り</button>
+                    <button class="filter-tab" data-filter="pinned">ピン留め</button>
+                    <button class="filter-tab" data-filter="archived">アーカイブ</button>
+                </div>
+                <button class="new-memo-btn" id="newMemoBtn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    新規メモ
+                </button>
+            </div>
+            <div class="toolbar">
+                <div class="view-controls">
+                    <button class="control-btn active" data-view="list" title="リスト表示">
+                        <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                            <line x1="8" y1="6" x2="21" y2="6"/>
+                            <line x1="8" y1="12" x2="21" y2="12"/>
+                            <line x1="8" y1="18" x2="21" y2="18"/>
+                            <line x1="3" y1="6" x2="3.01" y2="6"/>
+                            <line x1="3" y1="12" x2="3.01" y2="12"/>
+                            <line x1="3" y1="18" x2="3.01" y2="18"/>
+                        </svg>
+                    </button>
+                    <button class="control-btn" data-view="grid" title="グリッド表示">
+                        <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="sort-controls">
+                    <select class="control-btn" id="sortSelect">
+                        <option value="updated">更新日</option>
+                        <option value="created">作成日</option>
+                        <option value="title">タイトル</option>
+                    </select>
+                </div>
+            </div>
+            <div class="memo-list" id="memoList"></div>
+        </aside>
+
+        <main class="main-editor" id="mainEditor">
+            <div class="empty-state">
+                <div class="empty-state-text">メモを選択するか、新しいメモを作成してください</div>
+                <div class="empty-state-hint">ショートカット: Ctrl+N で新規メモ</div>
+            </div>
+        </main>
+    </div>
+
+    <div class="context-menu" id="contextMenu">
+        <div class="context-menu-item" data-action="edit">
+            <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+            編集
+        </div>
+        <div class="context-menu-item" data-action="duplicate">
+            <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            複製
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" data-action="favorite">
+            <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+            お気に入り切替
+        </div>
+        <div class="context-menu-item" data-action="pin">
+            <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+            </svg>
+            ピン留め切替
+        </div>
+        <div class="context-menu-submenu">
+            <div class="context-menu-item">
+                <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                    <circle cx="13.5" cy="6.5" r=".5"/>
+                    <circle cx="17.5" cy="10.5" r=".5"/>
+                    <circle cx="8.5" cy="7.5" r=".5"/>
+                    <circle cx="6.5" cy="12.5" r=".5"/>
+                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+                </svg>
+                色を変更
+            </div>
+            <div class="context-submenu">
+                <div class="context-menu-item" data-action="color" data-color="">
+                    <div class="color-dot" style="background: var(--text-tertiary);"></div>
+                    なし
+                </div>
+                <div class="context-menu-item" data-action="color" data-color="red">
+                    <div class="color-dot" style="background: var(--accent-red);"></div>
+                    赤
+                </div>
+                <div class="context-menu-item" data-action="color" data-color="orange">
+                    <div class="color-dot" style="background: var(--accent-orange);"></div>
+                    オレンジ
+                </div>
+                <div class="context-menu-item" data-action="color" data-color="yellow">
+                    <div class="color-dot" style="background: var(--accent-yellow);"></div>
+                    黄色
+                </div>
+                <div class="context-menu-item" data-action="color" data-color="green">
+                    <div class="color-dot" style="background: var(--accent-green);"></div>
+                    緑
+                </div>
+                <div class="context-menu-item" data-action="color" data-color="blue">
+                    <div class="color-dot" style="background: var(--accent-blue);"></div>
+                    青
+                </div>
+                <div class="context-menu-item" data-action="color" data-color="purple">
+                    <div class="color-dot" style="background: var(--accent-purple);"></div>
+                    紫
+                </div>
+                <div class="context-menu-item" data-action="color" data-color="pink">
+                    <div class="color-dot" style="background: var(--accent-pink);"></div>
+                    ピンク
+                </div>
+            </div>
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" data-action="archive">
+            <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+            </svg>
+            アーカイブ
+        </div>
+        <div class="context-menu-item" data-action="export">
+            <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            エクスポート
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item danger" data-action="delete">
+            <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"/>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+            削除
+        </div>
+    </div>
+
+    <div class="modal" id="helpModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">ショートカットキー</h2>
+            </div>
+            <div class="modal-body">
+                <div class="shortcut-list">
+                    <div class="shortcut-item">
+                        <span>新規メモ</span>
+                        <span class="shortcut-key">Ctrl+N</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>保存</span>
+                        <span class="shortcut-key">Ctrl+S</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>検索</span>
+                        <span class="shortcut-key">Ctrl+F</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>削除</span>
+                        <span class="shortcut-key">Ctrl+D</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>お気に入り切替</span>
+                        <span class="shortcut-key">Ctrl+B</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>ダークモード</span>
+                        <span class="shortcut-key">Ctrl+Shift+D</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>右クリックメニュー</span>
+                        <span class="shortcut-key">右クリック</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="closeHelpBtn">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+  <script>
+        const icons = {
+    star: '<svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+    pin: '<svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>',
+    trash: '<svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
+};
+
+let memos = [];
+let currentMemoId = null;
+let nextId = 1;
+let currentFilter = 'all';
+let currentView = 'list';
+let currentSort = 'updated';
+let currentEditorMode = 'edit';
+let contextMenuMemoId = null;
+let currentColorFilter = '';
+let currentTagFilter = '';
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function initData() {
+    try {
+        const storedData = localStorage.getItem('memos-data');
+        if (storedData) {
+            memos = JSON.parse(storedData);
+            nextId = Math.max(...memos.map(m => m.id), 0) + 1;
+            return;
+        }
+    } catch (e) {
+        console.log('Loading from localStorage failed, using default data');
+    }
+    
+    memos = [
+        {
+            id: nextId++,
+            title: 'ようこそ！',
+            content: '# Claft風メモアプリへようこそ！\n\n## 主な機能\n\n- リッチテキスト編集\n- ピン留め機能\n- お気に入り\n- 色分け\n- 右クリックメニュー\n- タグ削除機能\n- localStorageでデータ永続化\n\n**右クリック**でメモの操作メニューを表示！',
+            tags: ['ideas'],
+            favorite: false,
+            pinned: true,
+            archived: false,
+            color: 'blue',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        }
+    ];
+    saveToStorage();
+}
+
+function saveToStorage() {
+    try {
+        localStorage.setItem('memos-data', JSON.stringify(memos));
+    } catch (e) {
+        console.error('Failed to save to localStorage:', e);
+    }
+}
+
+const searchBox = document.getElementById('searchBox');
+const newMemoBtn = document.getElementById('newMemoBtn');
+const memoList = document.getElementById('memoList');
+const mainEditor = document.getElementById('mainEditor');
+const helpBtn = document.getElementById('helpBtn');
+const helpModal = document.getElementById('helpModal');
+const closeHelpBtn = document.getElementById('closeHelpBtn');
+const sortSelect = document.getElementById('sortSelect');
+const contextMenu = document.getElementById('contextMenu');
+const colorFilter = document.getElementById('colorFilter');
+const tagFilter = document.getElementById('tagFilter');
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function getFilteredMemos(filter = '') {
+    let filtered = memos.filter(memo => {
+        const matchesSearch = memo.title.toLowerCase().includes(filter.toLowerCase()) ||
+                            memo.content.toLowerCase().includes(filter.toLowerCase());
+        const matchesFilter = 
+            (currentFilter === 'all' && !memo.archived) ||
+            (currentFilter === 'favorites' && memo.favorite && !memo.archived) ||
+            (currentFilter === 'pinned' && memo.pinned && !memo.archived) ||
+            (currentFilter === 'archived' && memo.archived);
+        const matchesColor = !currentColorFilter || memo.color === currentColorFilter;
+        const matchesTag = !currentTagFilter || memo.tags.includes(currentTagFilter);
+        return matchesSearch && matchesFilter && matchesColor && matchesTag;
+    });
+
+    filtered.sort((a, b) => {
+        if (a.pinned && !b.pinned) return -1;
+        if (!a.pinned && b.pinned) return 1;
+        
+        if (currentSort === 'updated') {
+            return new Date(b.updatedAt) - new Date(a.updatedAt);
+        } else if (currentSort === 'created') {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        } else if (currentSort === 'title') {
+            return a.title.localeCompare(b.title);
+        }
+    });
+
+    return filtered;
+}
+
+function renderMemoList(filter = '') {
+    const filteredMemos = getFilteredMemos(filter);
+    memoList.className = currentView === 'grid' ? 'memo-list grid-view' : 'memo-list';
+
+    memoList.innerHTML = filteredMemos.map(memo => {
+        const date = new Date(memo.updatedAt);
+        const dateStr = date.toLocaleDateString('ja-JP', { month: 'short', day: 'numeric' });
+        const safeTitle = escapeHtml(memo.title || '無題のメモ');
+        const safeContent = escapeHtml(memo.content.substring(0, 100) || 'メモを書く...');
+        
+        return `
+            <div class="memo-item ${currentMemoId === memo.id ? 'active' : ''} ${memo.pinned ? 'pinned' : ''}" 
+                 data-id="${memo.id}" data-color="${memo.color || ''}">
+                <div class="memo-item-header">
+                    <div class="memo-item-title">${safeTitle}</div>
+                    <div class="memo-item-actions">
+                        <button class="memo-action-btn pinned ${memo.pinned ? 'active' : ''}" data-id="${memo.id}" title="ピン留め">${icons.pin}</button>
+                        <button class="memo-action-btn favorite ${memo.favorite ? 'active' : ''}" data-id="${memo.id}" title="お気に入り">${icons.star}</button>
+                        <button class="memo-action-btn delete" data-id="${memo.id}" title="削除">${icons.trash}</button>
+                    </div>
+                </div>
+                <div class="memo-item-meta">
+                    <span>${dateStr}</span>
+                    <span>${memo.content.length}文字</span>
+                </div>
+                <div class="memo-item-preview">${safeContent}</div>
+                <div class="memo-item-tags">
+                    ${memo.tags.map(tag => `<span class="tag tag-${tag}">${tag}</span>`).join('')}
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    attachMemoListeners();
+}
+
+function attachMemoListeners() {
+    document.querySelectorAll('.memo-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            if (!e.target.closest('.memo-action-btn')) {
+                selectMemo(parseInt(item.dataset.id));
+            }
+        });
+
+        item.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            contextMenuMemoId = parseInt(item.dataset.id);
+            showContextMenu(e.clientX, e.clientY);
+        });
+    });
+
+    document.querySelectorAll('.pinned').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            togglePin(parseInt(btn.dataset.id));
+        });
+    });
+
+    document.querySelectorAll('.favorite').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFavorite(parseInt(btn.dataset.id));
+        });
+    });
+
+    document.querySelectorAll('.delete').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            deleteMemo(parseInt(btn.dataset.id));
+        });
+    });
+}
+
+function showContextMenu(x, y) {
+    contextMenu.style.left = x + 'px';
+    contextMenu.style.top = y + 'px';
+    contextMenu.classList.add('show');
+
+    setTimeout(() => {
+        const rect = contextMenu.getBoundingClientRect();
+        if (rect.right > window.innerWidth) {
+            contextMenu.style.left = (x - rect.width) + 'px';
+        }
+        if (rect.bottom > window.innerHeight) {
+            contextMenu.style.top = (y - rect.height) + 'px';
+        }
+    }, 0);
+}
+
+function hideContextMenu() {
+    contextMenu.classList.remove('show');
+    contextMenuMemoId = null;
+}
+
+document.querySelectorAll('.context-menu-item[data-action]').forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const action = item.dataset.action;
+        const color = item.dataset.color;
+
+        if (!contextMenuMemoId) return;
+
+        switch(action) {
+            case 'edit':
+                selectMemo(contextMenuMemoId);
+                break;
+            case 'duplicate':
+                duplicateMemo(contextMenuMemoId);
+                break;
+            case 'favorite':
+                toggleFavorite(contextMenuMemoId);
+                break;
+            case 'pin':
+                togglePin(contextMenuMemoId);
+                break;
+            case 'color':
+                changeColor(contextMenuMemoId, color);
+                break;
+            case 'archive':
+                toggleArchive(contextMenuMemoId);
+                break;
+            case 'export':
+                exportMemo(contextMenuMemoId);
+                break;
+            case 'delete':
+                deleteMemo(contextMenuMemoId);
+                break;
+        }
+
+        hideContextMenu();
+    });
+});
+
+document.addEventListener('click', hideContextMenu);
+contextMenu.addEventListener('click', (e) => e.stopPropagation());
+
+function parseMarkdown(text) {
+    let html = text
+        .replace(/!\[([^\]]*)\]\(data:image\/[^;]+;base64,[^\)]+\)/g, (match) => {
+            return `<img src="${match.match(/\((data:image[^\)]+)\)/)[1]}" alt="uploaded image">`;
+        })
+        .replace(/\[([^\]]+)\]\(([^\)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+        .replace(/^# (.*$)/gm, '<h1>$1</h1>')
+        .replace(/^## (.*$)/gm, '<h2>$1</h2>')
+        .replace(/^### (.*$)/gm, '<h3>$1</h3>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/`(.*?)`/g, '<code>$1</code>')
+        .replace(/^---$/gm, '<hr>')
+        .replace(/@date\(([^\)]+)\)/g, '<span class="memo-date">$1</span>')
+        .replace(/^- (.*$)/gm, '<li>$1</li>')
+        .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/^(?!<[hul])/gm, '<p>')
+        .replace(/(?<![>])$/gm, '</p>');
+    
+    return html;
+}
+
+function renderEditor(memoId) {
+    const memo = memos.find(m => m.id === memoId);
+    if (!memo) {
+        mainEditor.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-state-text">メモを選択するか、新しいメモを作成してください</div>
+                <div class="empty-state-hint">ショートカット: Ctrl+N で新規メモ</div>
+            </div>
+        `;
+        return;
+    }
+
+    const stats = {
+        chars: memo.content.length,
+        words: memo.content.split(/\s+/).filter(w => w).length,
+        lines: memo.content.split('\n').length
+    };
+
+    const safeTitle = escapeHtml(memo.title);
+    const safeContent = escapeHtml(memo.content);
+
+    mainEditor.innerHTML = `
+        <div class="editor-header">
+            <input type="text" class="editor-title" id="editorTitle" placeholder="タイトルを入力..." value="${safeTitle}">
+            <div class="editor-tabs">
+                <button class="editor-tab active" data-mode="edit">
+                    <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                    編集
+                </button>
+                <button class="editor-tab" data-mode="preview">
+                    <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                    プレビュー
+                </button>
+            </div>
+            <div class="editor-toolbar">
+                <div class="toolbar-group">
+                    <button class="icon-btn" id="uploadBtn" title="画像をアップロード">
+                        <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                    </button>
+                    <input type="file" id="fileInput" class="file-input-hidden" accept="image/*">
+                    <button class="icon-btn" id="linkBtn" title="リンクを挿入">
+                        <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                        </svg>
+                    </button>
+                    <button class="icon-btn" id="dateBtn" title="日付を挿入">
+                        <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                    </button>
+                    <button class="icon-btn" id="lineBtn" title="ラインを挿入">
+                        <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="12" x2="21" y2="12"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="toolbar-divider"></div>
+                <div class="toolbar-group">
+                    <select class="tag-select" id="tagSelect">
+                        <option value="">タグを追加...</option>
+                        <option value="work">work</option>
+                        <option value="personal">personal</option>
+                        <option value="ideas">ideas</option>
+                        <option value="todo">todo</option>
+                    </select>
+                    <div class="memo-item-tags" id="currentTags">
+                        ${memo.tags.map(tag => `
+                            <span class="tag tag-${tag}">
+                                ${tag}
+                                <span class="tag-remove" data-tag="${tag}">×</span>
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="toolbar-divider"></div>
+                <div class="toolbar-group">
+                    <select class="color-select" id="colorSelect">
+                        <option value="">色を選択...</option>
+                        <option value="red">赤</option>
+                        <option value="orange">オレンジ</option>
+                        <option value="yellow">黄色</option>
+                        <option value="green">緑</option>
+                        <option value="blue">青</option>
+                        <option value="purple">紫</option>
+                        <option value="pink">ピンク</option>
+                    </select>
+                </div>
+                <div class="toolbar-divider"></div>
+                <div class="toolbar-group">
+                    <button class="icon-btn" id="duplicateBtn" title="複製">
+                        <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                    </button>
+                    <button class="icon-btn" id="exportBtn" title="エクスポート">
+                        <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7 10 12 15 17 10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                    </button>
+                    <button class="icon-btn" id="archiveBtn" title="${memo.archived ? 'アーカイブ解除' : 'アーカイブ'}">
+                        <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="editor-stats">
+                <span>${stats.chars} 文字</span>
+                <span>${stats.words} 単語</span>
+                <span>${stats.lines} 行</span>
+            </div>
+        </div>
+        <div class="editor-content" id="editorContent">
+            <textarea class="editor-textarea" id="editorTextarea" placeholder="ここにメモを書く...">${safeContent}</textarea>
+        </div>
+    `;
+
+    attachEditorListeners(memo);
+}
+
+function attachEditorListeners(memo) {
+    const titleInput = document.getElementById('editorTitle');
+    const contentInput = document.getElementById('editorTextarea');
+    const tagSelect = document.getElementById('tagSelect');
+    const colorSelect = document.getElementById('colorSelect');
+    const duplicateBtn = document.getElementById('duplicateBtn');
+    const exportBtn = document.getElementById('exportBtn');
+    const archiveBtn = document.getElementById('archiveBtn');
+    const editorTabs = document.querySelectorAll('.editor-tab');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const fileInput = document.getElementById('fileInput');
+    const linkBtn = document.getElementById('linkBtn');
+    const dateBtn = document.getElementById('dateBtn');
+    const lineBtn = document.getElementById('lineBtn');
+
+    if (memo.color) {
+        colorSelect.value = memo.color;
+    }
+
+    titleInput.addEventListener('input', (e) => {
+        memo.title = e.target.value;
+        memo.updatedAt = new Date().toISOString();
+        saveToStorage();
+        renderMemoList(searchBox.value);
+    });
+
+    contentInput.addEventListener('input', (e) => {
+        memo.content = e.target.value;
+        memo.updatedAt = new Date().toISOString();
+        saveToStorage();
+        renderMemoList(searchBox.value);
+        updateStats();
+    });
+
+    uploadBtn.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const base64 = event.target.result;
+                const cursorPos = contentInput.selectionStart;
+                const textBefore = contentInput.value.substring(0, cursorPos);
+                const textAfter = contentInput.value.substring(cursorPos);
+                contentInput.value = textBefore + `![uploaded image](${base64})` + textAfter;
+                memo.content = contentInput.value;
+                memo.updatedAt = new Date().toISOString();
+                saveToStorage();
+                renderMemoList(searchBox.value);
+                showToast('画像を挿入しました');
+            };
+            reader.readAsDataURL(file);
+        }
+        fileInput.value = '';
+    });
+
+    linkBtn.addEventListener('click', () => {
+        const url = prompt('リンクのURLを入力してください:');
+        if (url) {
+            const text = prompt('リンクのテキストを入力してください:', url);
+            if (text !== null) {
+                const cursorPos = contentInput.selectionStart;
+                const textBefore = contentInput.value.substring(0, cursorPos);
+                const textAfter = contentInput.value.substring(cursorPos);
+                contentInput.value = textBefore + `[${text}](${url})` + textAfter;
+                memo.content = contentInput.value;
+                memo.updatedAt = new Date().toISOString();
+                saveToStorage();
+                showToast('リンクを挿入しました');
+            }
+        }
+    });
+
+    dateBtn.addEventListener('click', () => {
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
+        const cursorPos = contentInput.selectionStart;
+        const textBefore = contentInput.value.substring(0, cursorPos);
+        const textAfter = contentInput.value.substring(cursorPos);
+        contentInput.value = textBefore + `@date(${dateStr})` + textAfter;
+        memo.content = contentInput.value;
+        memo.updatedAt = new Date().toISOString();
+        saveToStorage();
+        showToast('日付を挿入しました');
+    });
+
+    lineBtn.addEventListener('click', () => {
+        const cursorPos = contentInput.selectionStart;
+        const textBefore = contentInput.value.substring(0, cursorPos);
+        const textAfter = contentInput.value.substring(cursorPos);
+        contentInput.value = textBefore + '\n---\n' + textAfter;
+        memo.content = contentInput.value;
+        memo.updatedAt = new Date().toISOString();
+        saveToStorage();
+        showToast('ラインを挿入しました');
+    });
+
+    tagSelect.addEventListener('change', (e) => {
+        if (e.target.value && !memo.tags.includes(e.target.value)) {
+            memo.tags.push(e.target.value);
+            memo.updatedAt = new Date().toISOString();
+            saveToStorage();
+            renderEditor(memo.id);
+            renderMemoList(searchBox.value);
+        }
+        e.target.value = '';
+    });
+
+    document.querySelectorAll('.tag-remove').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const tagToRemove = btn.dataset.tag;
+            memo.tags = memo.tags.filter(tag => tag !== tagToRemove);
+            memo.updatedAt = new Date().toISOString();
+            saveToStorage();
+            renderEditor(memo.id);
+            renderMemoList(searchBox.value);
+            showToast('タグを削除しました');
+        });
+    });
+
+    colorSelect.addEventListener('change', (e) => {
+        memo.color = e.target.value;
+        memo.updatedAt = new Date().toISOString();
+        saveToStorage();
+        renderMemoList(searchBox.value);
+        showToast('色を変更しました');
+    });
+
+    duplicateBtn.addEventListener('click', () => duplicateMemo(memo.id));
+    exportBtn.addEventListener('click', () => exportMemo(memo.id));
+    archiveBtn.addEventListener('click', () => toggleArchive(memo.id));
+
+    editorTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            editorTabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            toggleEditorMode(tab.dataset.mode);
+        });
+    });
+
+    function updateStats() {
+        const stats = {
+            chars: memo.content.length,
+            words: memo.content.split(/\s+/).filter(w => w).length,
+            lines: memo.content.split('\n').length
+        };
+        document.querySelector('.editor-stats').innerHTML = `
+            <span>${stats.chars} 文字</span>
+            <span>${stats.words} 単語</span>
+            <span>${stats.lines} 行</span>
+        `;
+    }
+}
+
+function toggleEditorMode(mode) {
+    currentEditorMode = mode;
+    const content = document.getElementById('editorContent');
+    const textarea = document.getElementById('editorTextarea');
+    
+    if (mode === 'preview') {
+        const currentContent = memos.find(m => m.id === currentMemoId)?.content || '';
+        content.innerHTML = `<div class="markdown-preview">${parseMarkdown(currentContent)}</div>`;
+    } else {
+        const currentContent = memos.find(m => m.id === currentMemoId)?.content || '';
+        const safeContent = escapeHtml(currentContent);
+        content.innerHTML = `<textarea class="editor-textarea" id="editorTextarea" placeholder="ここにメモを書く...">${safeContent}</textarea>`;
+        attachEditorListeners(memos.find(m => m.id === currentMemoId));
+    }
+}
+
+function selectMemo(id) {
+    currentMemoId = id;
+    renderEditor(id);
+    renderMemoList(searchBox.value);
+}
+
+function createNewMemo() {
+    const newMemo = {
+        id: nextId++,
+        title: '',
+        content: '',
+        tags: [],
+        favorite: false,
+        pinned: false,
+        archived: false,
+        color: '',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+    };
+    memos.unshift(newMemo);
+    saveToStorage();
+    selectMemo(newMemo.id);
+    showToast('新しいメモを作成しました');
+}
+
+function togglePin(id) {
+    const memo = memos.find(m => m.id === id);
+    if (memo) {
+        memo.pinned = !memo.pinned;
+        memo.updatedAt = new Date().toISOString();
+        saveToStorage();
+        renderMemoList(searchBox.value);
+        showToast(memo.pinned ? 'ピン留めしました' : 'ピン留めを解除しました');
+    }
+}
+
+function toggleFavorite(id) {
+    const memo = memos.find(m => m.id === id);
+    if (memo) {
+        memo.favorite = !memo.favorite;
+        memo.updatedAt = new Date().toISOString();
+        saveToStorage();
+        renderMemoList(searchBox.value);
+        showToast(memo.favorite ? 'お気に入りに追加しました' : 'お気に入りから削除しました');
+    }
+}
+
+function toggleArchive(id) {
+    const memo = memos.find(m => m.id === id);
+    if (memo) {
+        memo.archived = !memo.archived;
+        memo.updatedAt = new Date().toISOString();
+        saveToStorage();
+        if (memo.archived) {
+            currentMemoId = null;
+            renderEditor(null);
+        }
+        renderMemoList(searchBox.value);
+        showToast(memo.archived ? 'アーカイブしました' : 'アーカイブを解除しました');
+    }
+}
+
+function changeColor(id, color) {
+    const memo = memos.find(m => m.id === id);
+    if (memo) {
+        memo.color = color;
+        memo.updatedAt = new Date().toISOString();
+        saveToStorage();
+        renderMemoList(searchBox.value);
+        if (currentMemoId === id) {
+            renderEditor(id);
+        }
+        showToast('色を変更しました');
+    }
+}
+
+function deleteMemo(id) {
+    if (confirm('このメモを削除しますか？')) {
+        memos = memos.filter(m => m.id !== id);
+        saveToStorage();
+        if (currentMemoId === id) {
+            currentMemoId = null;
+            renderEditor(null);
+        }
+        renderMemoList(searchBox.value);
+        showToast('メモを削除しました');
+    }
+}
+
+function duplicateMemo(id) {
+    const memo = memos.find(m => m.id === id);
+    if (memo) {
+        const newMemo = {
+            ...memo,
+            id: nextId++,
+            title: memo.title + ' (コピー)',
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        memos.unshift(newMemo);
+        saveToStorage();
+        selectMemo(newMemo.id);
+        showToast('メモを複製しました');
+    }
+}
+
+function exportMemo(id) {
+    const memo = memos.find(m => m.id === id);
+    if (memo) {
+        const content = `# ${memo.title}\n\n${memo.content}`;
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${memo.title || 'memo'}.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('メモをエクスポートしました');
+    }
+}
+
+searchBox.addEventListener('input', (e) => {
+    renderMemoList(e.target.value);
+});
+
+colorFilter.addEventListener('change', (e) => {
+    currentColorFilter = e.target.value;
+    renderMemoList(searchBox.value);
+});
+
+tagFilter.addEventListener('change', (e) => {
+    currentTagFilter = e.target.value;
+    renderMemoList(searchBox.value);
+});
+
+newMemoBtn.addEventListener('click', createNewMemo);
+helpBtn.addEventListener('click', () => {
+    helpModal.classList.add('show');
+});
+
+closeHelpBtn.addEventListener('click', () => {
+    helpModal.classList.remove('show');
+});
+
+helpModal.addEventListener('click', (e) => {
+    if (e.target === helpModal) {
+        helpModal.classList.remove('show');
+    }
+});
+
+document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentFilter = tab.dataset.filter;
+        renderMemoList(searchBox.value);
+    });
+});
+
+document.querySelectorAll('.control-btn[data-view]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.control-btn[data-view]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentView = btn.dataset.view;
+        renderMemoList(searchBox.value);
+    });
+});
+
+sortSelect.addEventListener('change', (e) => {
+    currentSort = e.target.value;
+    renderMemoList(searchBox.value);
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'n') {
+            e.preventDefault();
+            createNewMemo();
+        } else if (e.key === 's') {
+            e.preventDefault();
+            saveToStorage();
+            showToast('保存しました');
+        } else if (e.key === 'f') {
+            e.preventDefault();
+            searchBox.focus();
+        } else if (e.key === 'd') {
+            e.preventDefault();
+            if (currentMemoId) {
+                deleteMemo(currentMemoId);
+            }
+        } else if (e.key === 'b') {
+            e.preventDefault();
+            if (currentMemoId) {
+                toggleFavorite(currentMemoId);
+            }
+        }
+    }
+});
+
+initData();
+renderMemoList();
+
+setInterval(() => {
+    if (memos.length > 0) {
+        saveToStorage();
+    }
+}, 5000);
+  </script>
+</body>
+</html>
