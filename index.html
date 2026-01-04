@@ -4,12 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memo-site</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="back-drop-filter">
           <div class="container">
-        <!-- サイドバー -->
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="app-title">
@@ -36,6 +35,25 @@
                         <path d="m21 21-4.35-4.35"/>
                     </svg>
                     <input type="text" class="search-box" id="searchBox" placeholder="メモを検索...">
+                </div>
+                <div class="filter-row">
+                    <select class="filter-select" id="colorFilter">
+                        <option value="">すべての色</option>
+                        <option value="red">赤</option>
+                        <option value="orange">オレンジ</option>
+                        <option value="yellow">黄色</option>
+                        <option value="green">緑</option>
+                        <option value="blue">青</option>
+                        <option value="purple">紫</option>
+                        <option value="pink">ピンク</option>
+                    </select>
+                    <select class="filter-select" id="tagFilter">
+                        <option value="">すべてのタグ</option>
+                        <option value="work">work</option>
+                        <option value="personal">personal</option>
+                        <option value="ideas">ideas</option>
+                        <option value="todo">todo</option>
+                    </select>
                 </div>
                 <div class="filter-tabs">
                     <button class="filter-tab active" data-filter="all">すべて</button>
@@ -83,7 +101,6 @@
             <div class="memo-list" id="memoList"></div>
         </aside>
 
-        <!-- メインエディタ -->
         <main class="main-editor" id="mainEditor">
             <div class="empty-state">
                 <div class="empty-state-text">メモを選択するか、新しいメモを作成してください</div>
@@ -92,7 +109,6 @@
         </main>
     </div>
 
-    <!-- 右クリックメニュー -->
     <div class="context-menu" id="contextMenu">
         <div class="context-menu-item" data-action="edit">
             <svg class="icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
@@ -192,7 +208,6 @@
         </div>
     </div>
 
-    <!-- ヘルプモーダル -->
     <div class="modal" id="helpModal">
         <div class="modal-content">
             <div class="modal-header">
@@ -236,9 +251,8 @@
         </div>
     </div>
 
-    <!-- トースト通知 -->
     <div class="toast" id="toast"></div>
-  <script src="./script.js"></script>
-</div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
