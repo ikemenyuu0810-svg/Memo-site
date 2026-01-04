@@ -26,7 +26,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
-            background-image:url("./ashim-d-silva-WeYamle9fDM-unsplash.jpg") ;;
+            background-image:url("./ashim-d-silva-WeYamle9fDM-unsplash.jpg") ;
             min-height: 100vh;
             overflow: hidden;
             transition: background 0.3s;
@@ -61,7 +61,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
         .sidebar {
             width: 300px;
             background: var(--bg-secondary);
-            backdrop-filter: blrur(10px);
+            backdrop-filter: blrur(100px);
             border-radius: 12px;
             border: 1px solid var(--border-color);
             box-shadow: var(--shadow-sm);
