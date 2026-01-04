@@ -621,6 +621,12 @@
                 renderMemoList(searchBox.value);
             });
         });
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            console.log('clicked', tab);
+        });
+        });
+
 
         // ビュー切替
         document.querySelectorAll('.control-btn[data-view]').forEach(btn => {
