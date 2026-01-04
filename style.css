@@ -1,4 +1,4 @@
-* {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -53,6 +53,23 @@
             gap: 16px;
         }
 
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .icon-lg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .icon-xl {
+            width: 48px;
+            height: 48px;
+        }
+
         /* サイドバー */
         .sidebar {
             width: 300px;
@@ -81,6 +98,9 @@
             color: var(--text-primary);
             font-size: 20px;
             font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .settings-btns {
@@ -94,9 +114,11 @@
             border-radius: 6px;
             color: var(--text-secondary);
             cursor: pointer;
-            font-size: 14px;
             padding: 6px 8px;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .icon-btn:hover {
@@ -104,9 +126,13 @@
             color: var(--text-primary);
         }
 
+        .icon-btn svg {
+            fill: currentColor;
+        }
+
         .search-box {
             width: 100%;
-            padding: 10px 12px;
+            padding: 10px 12px 10px 36px;
             background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -115,6 +141,20 @@
             outline: none;
             transition: all 0.2s;
             margin-bottom: 12px;
+            position: relative;
+        }
+
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--text-tertiary);
         }
 
         .search-box::placeholder {
@@ -167,6 +207,10 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
         .new-memo-btn:hover {
@@ -196,6 +240,9 @@
             font-size: 13px;
             padding: 4px 8px;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         .control-btn:hover {
@@ -239,11 +286,14 @@
         }
 
         .memo-item.pinned::before {
-            content: '📌';
+            content: '';
             position: absolute;
             top: 8px;
             right: 8px;
-            font-size: 12px;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-blue);
+            border-radius: 50%;
         }
 
         .memo-item:hover {
@@ -299,9 +349,10 @@
             border: none;
             color: var(--text-tertiary);
             cursor: pointer;
-            font-size: 13px;
             padding: 2px;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
         }
 
         .memo-action-btn:hover {
@@ -315,6 +366,10 @@
 
         .memo-action-btn.pinned.active {
             color: var(--accent-blue);
+        }
+
+        .memo-action-btn svg {
+            fill: currentColor;
         }
 
         .memo-item-preview {
@@ -359,8 +414,9 @@
         .tag-remove {
             cursor: pointer;
             opacity: 0.7;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1;
+            font-weight: 700;
         }
 
         .tag-remove:hover {
@@ -401,6 +457,10 @@
             transition: all 0.2s;
         }
 
+        .context-menu-item svg {
+            fill: currentColor;
+        }
+
         .context-menu-item:hover {
             background: var(--hover-bg);
         }
@@ -434,6 +494,13 @@
 
         .context-menu-submenu:hover .context-submenu {
             display: block;
+        }
+
+        .color-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid var(--bg-secondary);
         }
 
         /* メインエディタ */
@@ -526,6 +593,9 @@
             font-size: 13px;
             cursor: pointer;
             transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .editor-tab:hover {
@@ -537,6 +607,10 @@
             background: var(--bg-tertiary);
             color: var(--accent-blue);
             border-color: var(--border-color);
+        }
+
+        .editor-tab svg {
+            fill: currentColor;
         }
 
         .editor-content {
@@ -610,8 +684,8 @@
         }
 
         .empty-state-icon {
-            font-size: 64px;
             margin-bottom: 16px;
+            color: var(--text-tertiary);
         }
 
         .empty-state-text {

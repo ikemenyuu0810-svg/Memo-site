@@ -1,4 +1,11 @@
-// データストア
+// SVGアイコンテンプレート
+        const icons = {
+            star: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+            pin: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>',
+            trash: '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>'
+        };
+
+        // データストア
         let memos = [];
         let currentMemoId = null;
         let nextId = 1;
@@ -25,7 +32,7 @@
                 {
                     id: nextId++,
                     title: 'ようこそ！',
-                    content: '# Claft風メモアプリへようこそ！\n\n## 主な機能\n\n- 📝 リッチテキスト編集\n- 📌 ピン留め機能\n- ⭐ お気に入り\n- 🎨 色分け\n- 🖱️ 右クリックメニュー\n- ❌ タグ削除機能\n\n**右クリック**でメモの操作メニューを表示！',
+                    content: '# Claft風メモアプリへようこそ！\n\n## 主な機能\n\n- リッチテキスト編集\n- ピン留め機能\n- お気に入り\n- 色分け\n- 右クリックメニュー\n- タグ削除機能\n\n**右クリック**でメモの操作メニューを表示！',
                     tags: ['ideas'],
                     favorite: false,
                     pinned: true,
@@ -111,9 +118,9 @@
                         <div class="memo-item-header">
                             <div class="memo-item-title">${memo.title || '無題のメモ'}</div>
                             <div class="memo-item-actions">
-                                <button class="memo-action-btn pinned ${memo.pinned ? 'active' : ''}" data-id="${memo.id}" title="ピン留め">📌</button>
-                                <button class="memo-action-btn favorite ${memo.favorite ? 'active' : ''}" data-id="${memo.id}" title="お気に入り">⭐</button>
-                                <button class="memo-action-btn delete" data-id="${memo.id}" title="削除">🗑️</button>
+                                <button class="memo-action-btn pinned ${memo.pinned ? 'active' : ''}" data-id="${memo.id}" title="ピン留め">${icons.pin}</button>
+                                <button class="memo-action-btn favorite ${memo.favorite ? 'active' : ''}" data-id="${memo.id}" title="お気に入り">${icons.star}</button>
+                                <button class="memo-action-btn delete" data-id="${memo.id}" title="削除">${icons.trash}</button>
                             </div>
                         </div>
                         <div class="memo-item-meta">
@@ -134,7 +141,7 @@
         function attachMemoListeners() {
             document.querySelectorAll('.memo-item').forEach(item => {
                 item.addEventListener('click', (e) => {
-                    if (!e.target.classList.contains('memo-action-btn')) {
+                    if (!e.target.closest('.memo-action-btn')) {
                         selectMemo(parseInt(item.dataset.id));
                     }
                 });
@@ -175,7 +182,6 @@
             contextMenu.style.top = y + 'px';
             contextMenu.classList.add('show');
 
-            // 画面外に出ないように調整
             setTimeout(() => {
                 const rect = contextMenu.getBoundingClientRect();
                 if (rect.right > window.innerWidth) {
@@ -232,7 +238,6 @@
             });
         });
 
-        // メニュー外クリックで閉じる
         document.addEventListener('click', hideContextMenu);
         contextMenu.addEventListener('click', (e) => e.stopPropagation());
 
@@ -258,7 +263,9 @@
             if (!memo) {
                 mainEditor.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-state-icon">✨</div>
+                        <svg class="icon-xl empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
                         <div class="empty-state-text">メモを選択するか、新しいメモを作成してください</div>
                         <div class="empty-state-hint">ショートカット: Ctrl+N で新規メモ</div>
                     </div>
@@ -276,13 +283,25 @@
                 <div class="editor-header">
                     <input type="text" class="editor-title" id="editorTitle" placeholder="タイトルを入力..." value="${memo.title}">
                     <div class="editor-tabs">
-                        <button class="editor-tab active" data-mode="edit">✏️ 編集</button>
-                        <button class="editor-tab" data-mode="preview">👁️ プレビュー</button>
+                        <button class="editor-tab active" data-mode="edit">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                            編集
+                        </button>
+                        <button class="editor-tab" data-mode="preview">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            プレビュー
+                        </button>
                     </div>
                     <div class="editor-toolbar">
                         <div class="toolbar-group">
                             <select class="tag-select" id="tagSelect">
-                                <option value="">📌 タグを追加...</option>
+                                <option value="">タグを追加...</option>
                                 <option value="work">work</option>
                                 <option value="personal">personal</option>
                                 <option value="ideas">ideas</option>
@@ -300,21 +319,36 @@
                         <div class="toolbar-divider"></div>
                         <div class="toolbar-group">
                             <select class="color-select" id="colorSelect">
-                                <option value="">🎨 色を選択...</option>
-                                <option value="red">🔴 赤</option>
-                                <option value="orange">🟠 オレンジ</option>
-                                <option value="yellow">🟡 黄色</option>
-                                <option value="green">🟢 緑</option>
-                                <option value="blue">🔵 青</option>
-                                <option value="purple">🟣 紫</option>
-                                <option value="pink">🌸 ピンク</option>
+                                <option value="">色を選択...</option>
+                                <option value="red">赤</option>
+                                <option value="orange">オレンジ</option>
+                                <option value="yellow">黄色</option>
+                                <option value="green">緑</option>
+                                <option value="blue">青</option>
+                                <option value="purple">紫</option>
+                                <option value="pink">ピンク</option>
                             </select>
                         </div>
                         <div class="toolbar-divider"></div>
                         <div class="toolbar-group">
-                            <button class="icon-btn" id="duplicateBtn" title="複製">📋</button>
-                            <button class="icon-btn" id="exportBtn" title="エクスポート">💾</button>
-                            <button class="icon-btn" id="archiveBtn" title="${memo.archived ? 'アーカイブ解除' : 'アーカイブ'}">📁</button>
+                            <button class="icon-btn" id="duplicateBtn" title="複製">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                                </svg>
+                            </button>
+                            <button class="icon-btn" id="exportBtn" title="エクスポート">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                    <polyline points="7 10 12 15 17 10"/>
+                                    <line x1="12" y1="15" x2="12" y2="3"/>
+                                </svg>
+                            </button>
+                            <button class="icon-btn" id="archiveBtn" title="${memo.archived ? 'アーカイブ解除' : 'アーカイブ'}">
+                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                     <div class="editor-stats">
