@@ -1,5 +1,5 @@
-document.body.addEventListener('click', () => {
-  console.log('body clicked');
+tab.addEventListener('click', e => {
+  console.log(e.target);
 });
 
 console.log(document.querySelectorAll('.filter-tab'));
