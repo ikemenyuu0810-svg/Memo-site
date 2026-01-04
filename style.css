@@ -6,7 +6,7 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
             --bg-primary: rgba(255,255,255,0.12);
             --bg-secondary: rgba(255,255,255,0.24);
             --bg-tertiary: #f1f3f5;
-            --text-primary: #212529;
+            --text-primary: #ffffff;
             --text-secondary: #6c757d;
             --text-tertiary: #adb5bd;
             --border-color: rgba(255,255,25,0.18);
