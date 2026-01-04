@@ -40,9 +40,7 @@
                     </select>
                 </div>
             </div>
-            <div class="memo-list" id="memoList">
-                <!-- メモアイテムがここに追加されます -->
-            </div>
+            <div class="memo-list" id="memoList"></div>
         </aside>
 
         <!-- メインエディタ -->
@@ -53,6 +51,33 @@
                 <div class="empty-state-hint">ショートカット: Ctrl+N で新規メモ</div>
             </div>
         </main>
+    </div>
+
+    <!-- 右クリックメニュー -->
+    <div class="context-menu" id="contextMenu">
+        <div class="context-menu-item" data-action="edit">✏️ 編集</div>
+        <div class="context-menu-item" data-action="duplicate">📋 複製</div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" data-action="favorite">⭐ お気に入り切替</div>
+        <div class="context-menu-item" data-action="pin">📌 ピン留め切替</div>
+        <div class="context-menu-item context-menu-submenu">
+            🎨 色を変更
+            <div class="context-submenu">
+                <div class="context-menu-item" data-action="color" data-color="">⚪ なし</div>
+                <div class="context-menu-item" data-action="color" data-color="red">🔴 赤</div>
+                <div class="context-menu-item" data-action="color" data-color="orange">🟠 オレンジ</div>
+                <div class="context-menu-item" data-action="color" data-color="yellow">🟡 黄色</div>
+                <div class="context-menu-item" data-action="color" data-color="green">🟢 緑</div>
+                <div class="context-menu-item" data-action="color" data-color="blue">🔵 青</div>
+                <div class="context-menu-item" data-action="color" data-color="purple">🟣 紫</div>
+                <div class="context-menu-item" data-action="color" data-color="pink">🌸 ピンク</div>
+            </div>
+        </div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" data-action="archive">📁 アーカイブ</div>
+        <div class="context-menu-item" data-action="export">💾 エクスポート</div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item danger" data-action="delete">🗑️ 削除</div>
     </div>
 
     <!-- ヘルプモーダル -->
@@ -86,6 +111,10 @@
                     <div class="shortcut-item">
                         <span>ダークモード</span>
                         <span class="shortcut-key">Ctrl+Shift+D</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>右クリックメニュー</span>
+                        <span class="shortcut-key">右クリック</span>
                     </div>
                 </div>
             </div>

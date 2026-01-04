@@ -1,4 +1,4 @@
-        // データストア
+// データストア
         let memos = [];
         let currentMemoId = null;
         let nextId = 1;
@@ -6,51 +6,45 @@
         let currentView = 'list';
         let currentSort = 'updated';
         let currentEditorMode = 'edit';
+        let contextMenuMemoId = null;
 
         // 初期データ
-        function initData() {
-            const saved = loadFromStorage();
-            if (saved && saved.length > 0) {
-                memos = saved;
-                nextId = Math.max(...memos.map(m => m.id)) + 1;
-            } else {
-                memos = [
-                    {
-                        id: nextId++,
-                        title: 'ようこそ！',
-                        content: '# Claft風メモアプリへようこそ！\n\n## 主な機能\n\n- 📝 リッチテキスト編集\n- 📌 ピン留め機能\n- ⭐ お気に入り\n- 🎨 色分け\n- 📊 統計表示\n- 🔍 高度な検索\n- ⌨️ ショートカットキー\n\n**Ctrl+N** で新規メモを作成できます！',
-                        tags: ['ideas'],
-                        favorite: false,
-                        pinned: true,
-                        archived: false,
-                        color: 'blue',
-                        createdAt: new Date().toISOString(),
-                        updatedAt: new Date().toISOString()
-                    }
-                ];
-                saveToStorage();
+        async function initData() {
+            try {
+                const result = await window.storage.get('memos-data');
+                if (result && result.value) {
+                    memos = JSON.parse(result.value);
+                    nextId = Math.max(...memos.map(m => m.id)) + 1;
+                    return;
+                }
+            } catch (e) {
+                console.log('Loading from storage failed, using default data');
             }
+            
+            memos = [
+                {
+                    id: nextId++,
+                    title: 'ようこそ！',
+                    content: '# Claft風メモアプリへようこそ！\n\n## 主な機能\n\n- 📝 リッチテキスト編集\n- 📌 ピン留め機能\n- ⭐ お気に入り\n- 🎨 色分け\n- 🖱️ 右クリックメニュー\n- ❌ タグ削除機能\n\n**右クリック**でメモの操作メニューを表示！',
+                    tags: ['ideas'],
+                    favorite: false,
+                    pinned: true,
+                    archived: false,
+                    color: 'blue',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                }
+            ];
+            await saveToStorage();
         }
 
         // 永続化
-        function saveToStorage() {
+        async function saveToStorage() {
             try {
-                window.storage.set('memos-data', JSON.stringify(memos));
+                await window.storage.set('memos-data', JSON.stringify(memos));
             } catch (e) {
                 console.log('Storage not available');
             }
-        }
-
-        function loadFromStorage() {
-            try {
-                const data = window.storage.get('memos-data');
-                if (data && data.value) {
-                    return JSON.parse(data.value);
-                }
-            } catch (e) {
-                console.log('Storage not available');
-            }
-            return null;
         }
 
         // 要素の取得
@@ -63,6 +57,7 @@
         const helpModal = document.getElementById('helpModal');
         const closeHelpBtn = document.getElementById('closeHelpBtn');
         const sortSelect = document.getElementById('sortSelect');
+        const contextMenu = document.getElementById('contextMenu');
 
         // トースト通知
         function showToast(message) {
@@ -85,7 +80,6 @@
                 return matchesSearch && matchesFilter;
             });
 
-            // ソート
             filtered.sort((a, b) => {
                 if (a.pinned && !b.pinned) return -1;
                 if (!a.pinned && b.pinned) return 1;
@@ -105,7 +99,6 @@
         // メモリストの描画
         function renderMemoList(filter = '') {
             const filteredMemos = getFilteredMemos(filter);
-
             memoList.className = currentView === 'grid' ? 'memo-list grid-view' : 'memo-list';
 
             memoList.innerHTML = filteredMemos.map(memo => {
@@ -145,29 +138,103 @@
                         selectMemo(parseInt(item.dataset.id));
                     }
                 });
+
+                // 右クリックメニュー
+                item.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    contextMenuMemoId = parseInt(item.dataset.id);
+                    showContextMenu(e.clientX, e.clientY);
+                });
             });
 
             document.querySelectorAll('.pinned').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+                btn.addEventListener('click', async (e) => {
                     e.stopPropagation();
-                    togglePin(parseInt(btn.dataset.id));
+                    await togglePin(parseInt(btn.dataset.id));
                 });
             });
 
             document.querySelectorAll('.favorite').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+                btn.addEventListener('click', async (e) => {
                     e.stopPropagation();
-                    toggleFavorite(parseInt(btn.dataset.id));
+                    await toggleFavorite(parseInt(btn.dataset.id));
                 });
             });
 
             document.querySelectorAll('.delete').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+                btn.addEventListener('click', async (e) => {
                     e.stopPropagation();
-                    deleteMemo(parseInt(btn.dataset.id));
+                    await deleteMemo(parseInt(btn.dataset.id));
                 });
             });
         }
+
+        // 右クリックメニューの表示
+        function showContextMenu(x, y) {
+            contextMenu.style.left = x + 'px';
+            contextMenu.style.top = y + 'px';
+            contextMenu.classList.add('show');
+
+            // 画面外に出ないように調整
+            setTimeout(() => {
+                const rect = contextMenu.getBoundingClientRect();
+                if (rect.right > window.innerWidth) {
+                    contextMenu.style.left = (x - rect.width) + 'px';
+                }
+                if (rect.bottom > window.innerHeight) {
+                    contextMenu.style.top = (y - rect.height) + 'px';
+                }
+            }, 0);
+        }
+
+        function hideContextMenu() {
+            contextMenu.classList.remove('show');
+            contextMenuMemoId = null;
+        }
+
+        // コンテキストメニューのイベント
+        document.querySelectorAll('.context-menu-item[data-action]').forEach(item => {
+            item.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const action = item.dataset.action;
+                const color = item.dataset.color;
+
+                if (!contextMenuMemoId) return;
+
+                switch(action) {
+                    case 'edit':
+                        selectMemo(contextMenuMemoId);
+                        break;
+                    case 'duplicate':
+                        await duplicateMemo(contextMenuMemoId);
+                        break;
+                    case 'favorite':
+                        await toggleFavorite(contextMenuMemoId);
+                        break;
+                    case 'pin':
+                        await togglePin(contextMenuMemoId);
+                        break;
+                    case 'color':
+                        await changeColor(contextMenuMemoId, color);
+                        break;
+                    case 'archive':
+                        await toggleArchive(contextMenuMemoId);
+                        break;
+                    case 'export':
+                        await exportMemo(contextMenuMemoId);
+                        break;
+                    case 'delete':
+                        await deleteMemo(contextMenuMemoId);
+                        break;
+                }
+
+                hideContextMenu();
+            });
+        });
+
+        // メニュー外クリックで閉じる
+        document.addEventListener('click', hideContextMenu);
+        contextMenu.addEventListener('click', (e) => e.stopPropagation());
 
         // 簡易Markdownパーサー
         function parseMarkdown(text) {
@@ -222,7 +289,12 @@
                                 <option value="todo">todo</option>
                             </select>
                             <div class="memo-item-tags" id="currentTags">
-                                ${memo.tags.map(tag => `<span class="tag tag-${tag}">${tag}</span>`).join('')}
+                                ${memo.tags.map(tag => `
+                                    <span class="tag tag-${tag}">
+                                        ${tag}
+                                        <span class="tag-remove" data-tag="${tag}">×</span>
+                                    </span>
+                                `).join('')}
                             </div>
                         </div>
                         <div class="toolbar-divider"></div>
@@ -273,36 +345,50 @@
                 colorSelect.value = memo.color;
             }
 
-            titleInput.addEventListener('input', (e) => {
+            titleInput.addEventListener('input', async (e) => {
                 memo.title = e.target.value;
                 memo.updatedAt = new Date().toISOString();
-                saveToStorage();
+                await saveToStorage();
                 renderMemoList(searchBox.value);
             });
 
-            contentInput.addEventListener('input', (e) => {
+            contentInput.addEventListener('input', async (e) => {
                 memo.content = e.target.value;
                 memo.updatedAt = new Date().toISOString();
-                saveToStorage();
+                await saveToStorage();
                 renderMemoList(searchBox.value);
                 updateStats();
             });
 
-            tagSelect.addEventListener('change', (e) => {
+            tagSelect.addEventListener('change', async (e) => {
                 if (e.target.value && !memo.tags.includes(e.target.value)) {
                     memo.tags.push(e.target.value);
                     memo.updatedAt = new Date().toISOString();
-                    saveToStorage();
+                    await saveToStorage();
                     renderEditor(memo.id);
                     renderMemoList(searchBox.value);
                 }
                 e.target.value = '';
             });
 
-            colorSelect.addEventListener('change', (e) => {
+            // タグ削除機能
+            document.querySelectorAll('.tag-remove').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    const tagToRemove = btn.dataset.tag;
+                    memo.tags = memo.tags.filter(tag => tag !== tagToRemove);
+                    memo.updatedAt = new Date().toISOString();
+                    await saveToStorage();
+                    renderEditor(memo.id);
+                    renderMemoList(searchBox.value);
+                    showToast('タグを削除しました');
+                });
+            });
+
+            colorSelect.addEventListener('change', async (e) => {
                 memo.color = e.target.value;
                 memo.updatedAt = new Date().toISOString();
-                saveToStorage();
+                await saveToStorage();
                 renderMemoList(searchBox.value);
                 showToast('色を変更しました');
             });
@@ -354,7 +440,7 @@
             renderMemoList(searchBox.value);
         }
 
-        function createNewMemo() {
+        async function createNewMemo() {
             const newMemo = {
                 id: nextId++,
                 title: '',
@@ -368,39 +454,39 @@
                 updatedAt: new Date().toISOString()
             };
             memos.unshift(newMemo);
-            saveToStorage();
+            await saveToStorage();
             selectMemo(newMemo.id);
             showToast('新しいメモを作成しました');
         }
 
-        function togglePin(id) {
+        async function togglePin(id) {
             const memo = memos.find(m => m.id === id);
             if (memo) {
                 memo.pinned = !memo.pinned;
                 memo.updatedAt = new Date().toISOString();
-                saveToStorage();
+                await saveToStorage();
                 renderMemoList(searchBox.value);
                 showToast(memo.pinned ? 'ピン留めしました' : 'ピン留めを解除しました');
             }
         }
 
-        function toggleFavorite(id) {
+        async function toggleFavorite(id) {
             const memo = memos.find(m => m.id === id);
             if (memo) {
                 memo.favorite = !memo.favorite;
                 memo.updatedAt = new Date().toISOString();
-                saveToStorage();
+                await saveToStorage();
                 renderMemoList(searchBox.value);
                 showToast(memo.favorite ? 'お気に入りに追加しました' : 'お気に入りから削除しました');
             }
         }
 
-        function toggleArchive(id) {
+        async function toggleArchive(id) {
             const memo = memos.find(m => m.id === id);
             if (memo) {
                 memo.archived = !memo.archived;
                 memo.updatedAt = new Date().toISOString();
-                saveToStorage();
+                await saveToStorage();
                 if (memo.archived) {
                     currentMemoId = null;
                     renderEditor(null);
@@ -410,10 +496,24 @@
             }
         }
 
-        function deleteMemo(id) {
+        async function changeColor(id, color) {
+            const memo = memos.find(m => m.id === id);
+            if (memo) {
+                memo.color = color;
+                memo.updatedAt = new Date().toISOString();
+                await saveToStorage();
+                renderMemoList(searchBox.value);
+                if (currentMemoId === id) {
+                    renderEditor(id);
+                }
+                showToast('色を変更しました');
+            }
+        }
+
+        async function deleteMemo(id) {
             if (confirm('このメモを削除しますか？')) {
                 memos = memos.filter(m => m.id !== id);
-                saveToStorage();
+                await saveToStorage();
                 if (currentMemoId === id) {
                     currentMemoId = null;
                     renderEditor(null);
@@ -423,7 +523,7 @@
             }
         }
 
-        function duplicateMemo(id) {
+        async function duplicateMemo(id) {
             const memo = memos.find(m => m.id === id);
             if (memo) {
                 const newMemo = {
@@ -434,13 +534,13 @@
                     updatedAt: new Date().toISOString()
                 };
                 memos.unshift(newMemo);
-                saveToStorage();
+                await saveToStorage();
                 selectMemo(newMemo.id);
                 showToast('メモを複製しました');
             }
         }
 
-        function exportMemo(id) {
+        async function exportMemo(id) {
             const memo = memos.find(m => m.id === id);
             if (memo) {
                 const content = `# ${memo.title}\n\n${memo.content}`;
@@ -538,12 +638,13 @@
         });
 
         // 初期化
-        initData();
-        renderMemoList();
+        initData().then(() => {
+            renderMemoList();
+        });
 
         // 自動保存（5秒ごと）
-        setInterval(() => {
+        setInterval(async () => {
             if (memos.length > 0) {
-                saveToStorage();
+                await saveToStorage();
             }
         }, 5000);
