@@ -1,3 +1,7 @@
+document.body.addEventListener('click', () => {
+  console.log('body clicked');
+});
+
 console.log(document.querySelectorAll('.filter-tab'));
 // SVGアイコンテンプレート
         const icons = {
