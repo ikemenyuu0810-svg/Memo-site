@@ -254,7 +254,7 @@ function parseMarkdown(text) {
         .replace(/^### (.*$)/gm, '<h3>$1</h3>')
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/`(.*?)`/g, '<code>$1</code>')
+        .replace(/'(.*?)'/g, '<code>$1</code>')
         .replace(/^---$/gm, '<hr>')
         .replace(/@date\(([^\)]+)\)/g, '<span class="memo-date">$1</span>')
         .replace(/^- (.*$)/gm, '<li>$1</li>')
