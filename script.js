@@ -263,9 +263,6 @@
             if (!memo) {
                 mainEditor.innerHTML = `
                     <div class="empty-state">
-                        <svg class="icon-xl empty-state-icon" viewBox="0 0 24 24" fill="white" stroke="currentColor" stroke-width="2">
-                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-                        </svg>
                         <div class="empty-state-text">メモを選択するか、新しいメモを作成してください</div>
                         <div class="empty-state-hint">ショートカット: Ctrl+N で新規メモ</div>
                     </div>
