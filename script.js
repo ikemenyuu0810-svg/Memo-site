@@ -250,7 +250,7 @@
                 .replace(/^### (.*$)/gm, '<h3>$1</h3>')
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/`(.*?)`/g, '<code>$1</code>')
+                .replace(/'(.*?)'/g, '<code>$1</code>')
                 .replace(/^- (.*$)/gm, '<li>$1</li>')
                 .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
                 .replace(/\n\n/g, '</p><p>')
