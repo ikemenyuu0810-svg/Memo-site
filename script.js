@@ -596,12 +596,6 @@ console.log(document.querySelectorAll('.filter-tab'));
         });
 
         newMemoBtn.addEventListener('click', createNewMemo);
-
-        darkModeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            showToast('ダークモードを切り替えました');
-        });
-
         helpBtn.addEventListener('click', () => {
             helpModal.classList.add('show');
         });
