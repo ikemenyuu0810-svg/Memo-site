@@ -1,7 +1,6 @@
-tab.addEventListener('click', e => {
-  console.log(e.target);
+document.querySelectorAll('.filter-tab').forEach(tab => {
+  tab.onclick = () => alert('clicked');
 });
-
 console.log(document.querySelectorAll('.filter-tab'));
 // SVGアイコンテンプレート
         const icons = {
